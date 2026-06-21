@@ -4,461 +4,583 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Touil Abdelhalim — Développeur Web</title>
-  <meta name="description" content="Développeur web freelance basé à Alger. Spécialisé en sites vitrine et e-commerce — PHP, MySQL, JavaScript. Disponible pour missions et opportunités full-time."/>
-  <meta property="og:title" content="Touil Abdelhalim — Développeur Web"/>
-  <meta property="og:description" content="Développeur web freelance basé à Alger. Sites vitrine, e-commerce, PHP/MySQL."/>
-  <meta property="og:type" content="website"/>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <meta name="description" content="Développeur web freelance basé à Alger. Spécialisé en sites vitrine et e-commerce — PHP, MySQL, JavaScript."/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --black: #0a0a0a; --white: #f5f3ee; --accent: #e8ff00;
-      --gray: #8a8a8a; --border: #d4d1cc;
+      --navy:   #0D1B2A;
+      --sand:   #F0E6D3;
+      --coral:  #FF4D3A;
+      --muted:  #8A7F74;
+      --light:  #FAF7F3;
+      --border: rgba(13,27,42,.12);
     }
     html { scroll-behavior: smooth; }
-    body { font-family: 'DM Mono', monospace; background: var(--white); color: var(--black); overflow-x: hidden; cursor: none; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--light);
+      color: var(--navy);
+      overflow-x: hidden;
+    }
 
-    /* CURSOR */
-    .cursor { position: fixed; width: 10px; height: 10px; background: var(--black); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width .18s, height .18s; }
-    .cursor-ring { position: fixed; width: 34px; height: 34px; border: 1.5px solid var(--black); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); opacity: .45; transition: width .18s, height .18s, opacity .18s; }
-    .cursor.big { width: 18px; height: 18px; }
-    .cursor-ring.big { width: 52px; height: 52px; opacity: .22; }
+    /* ─── CURSOR ─── */
+    .cursor { position:fixed; width:8px; height:8px; background:var(--coral); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform .15s; }
+    .cursor-ring { position:fixed; width:32px; height:32px; border:1.5px solid var(--coral); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); opacity:.4; transition:width .2s,height .2s,opacity .2s; }
+    .cursor.big { transform:translate(-50%,-50%) scale(2.5); }
+    .cursor-ring.big { width:50px; height:50px; opacity:.18; }
+    @media(hover:none){ .cursor,.cursor-ring{ display:none; } body{ cursor:default; } }
 
-    /* NAV */
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; justify-content: space-between; align-items: center; padding: 1.4rem 4rem; background: var(--white); border-bottom: 1px solid var(--border); animation: fadeDown .6s ease both; }
-    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.05rem; letter-spacing: -.02em; text-decoration: none; color: var(--black); }
-    .nav-logo span { color: var(--gray); font-weight: 400; }
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-    .nav-links a { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; text-decoration: none; color: var(--gray); transition: color .2s; }
-    .nav-links a:hover { color: var(--black); }
-    .nav-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; display: inline-block; margin-right: .5rem; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(34,197,94,.5); } 50% { box-shadow: 0 0 0 6px rgba(34,197,94,0); } }
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top:0; left:0; right:0; z-index:200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.25rem 3rem;
+      background: rgba(250,247,243,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700; font-size: 1rem; letter-spacing: -.02em;
+      text-decoration: none; color: var(--navy);
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .nav-logo-dot { width:7px; height:7px; border-radius:50%; background:var(--coral); animation:pulse 2s infinite; }
+    .nav-links { display:flex; gap:2rem; list-style:none; }
+    .nav-links a { font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; text-decoration:none; color:var(--muted); transition:color .2s; }
+    .nav-links a:hover { color:var(--navy); }
+    @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,77,58,.4)} 60%{box-shadow:0 0 0 6px rgba(255,77,58,0)} }
 
-    /* HERO */
-    .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 5rem; }
-    .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 6rem 4rem; border-right: 1px solid var(--border); }
-    .hero-eyebrow { display: flex; align-items: center; gap: .5rem; font-size: .68rem; letter-spacing: .15em; text-transform: uppercase; color: var(--gray); margin-bottom: 2rem; animation: fadeUp .8s .15s ease both; }
-    .hero-name { font-family: 'Syne', sans-serif; font-size: clamp(3.2rem, 5.5vw, 5.2rem); font-weight: 800; line-height: .93; letter-spacing: -.04em; margin-bottom: 1.6rem; animation: fadeUp .8s .25s ease both; }
-    .hero-name .outline { -webkit-text-stroke: 2px var(--black); color: transparent; }
-    .hero-desc { font-size: .88rem; line-height: 1.75; color: var(--gray); max-width: 380px; margin-bottom: 3rem; animation: fadeUp .8s .35s ease both; }
-    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeUp .8s .45s ease both; }
-    .btn { display: inline-block; padding: .85rem 2rem; font-family: 'DM Mono', monospace; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; transition: all .2s; cursor: none; }
-    .btn-primary { background: var(--black); color: var(--accent); border: 2px solid var(--black); }
-    .btn-primary:hover { background: var(--accent); color: var(--black); }
-    .btn-outline { background: transparent; color: var(--black); border: 2px solid var(--black); }
-    .btn-outline:hover { background: var(--black); color: var(--white); }
-    .hero-right { display: flex; flex-direction: column; justify-content: center; padding: 4rem; gap: 3.5rem; border-left: 1px solid var(--border); }
-    .hero-badge { display: flex; align-items: center; gap: 1.2rem; }
-    .hero-badge-icon { width: 44px; height: 44px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
-    .hero-badge-text { font-size: .72rem; line-height: 1.6; color: var(--gray); }
-    .hero-badge-text strong { display: block; font-family: 'Syne', sans-serif; font-size: .9rem; color: var(--black); font-weight: 700; letter-spacing: -.01em; margin-bottom: .1rem; }
-    .hero-divider { height: 1px; background: var(--border); }
-    .hero-tech { display: flex; flex-direction: column; gap: .8rem; }
-    .hero-tech-label { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gray); }
-    .hero-tech-pills { display: flex; flex-wrap: wrap; gap: .4rem; }
-    .hero-tech-pill { font-size: .65rem; letter-spacing: .08em; text-transform: uppercase; padding: .3rem .7rem; border: 1px solid var(--border); color: var(--black); }
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      padding-top: 5rem;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left:0; right:0; height:80px;
+      background: var(--light);
+      clip-path: ellipse(55% 100% at 50% 100%);
+      pointer-events:none;
+    }
+    .hero-bg {
+      position: absolute; inset:0; z-index:0;
+      background: var(--navy);
+      clip-path: polygon(0 0, 66% 0, 56% 100%, 0 100%);
+    }
+    .hero-left {
+      position: relative; z-index:1;
+      display: flex; flex-direction:column; justify-content:center;
+      padding: 6rem 4rem 8rem;
+      color: var(--sand);
+    }
+    .hero-eyebrow {
+      font-size: .7rem; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--coral); margin-bottom: 2rem;
+      display:flex; align-items:center; gap:.6rem;
+      opacity:0; animation: fadeUp .7s .1s ease forwards;
+    }
+    .hero-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(3.5rem, 6vw, 5.8rem);
+      font-weight: 700; line-height: .92; letter-spacing: -.04em;
+      margin-bottom: 1.8rem;
+      opacity:0; animation: fadeUp .7s .2s ease forwards;
+    }
+    .hero-name em { font-style:normal; color:var(--coral); }
+    .hero-desc {
+      font-size: .95rem; line-height: 1.8; color: rgba(240,230,211,.65);
+      max-width: 400px; margin-bottom: 3rem;
+      opacity:0; animation: fadeUp .7s .3s ease forwards;
+    }
+    .hero-cta {
+      display:flex; gap:1rem; flex-wrap:wrap;
+      opacity:0; animation: fadeUp .7s .4s ease forwards;
+    }
+    .btn {
+      display:inline-block; padding:.85rem 2rem;
+      font-family:'Space Grotesk',sans-serif; font-weight:600;
+      font-size:.78rem; letter-spacing:.06em; text-transform:uppercase;
+      text-decoration:none; border-radius:2px; transition:all .22s; cursor:none;
+    }
+    .btn-primary { background:var(--coral); color:#fff; border:2px solid var(--coral); }
+    .btn-primary:hover { background:transparent; color:var(--coral); }
+    .btn-outline { background:transparent; color:var(--sand); border:2px solid rgba(240,230,211,.35); }
+    .btn-outline:hover { border-color:var(--sand); }
 
-    /* MARQUEE */
-    .marquee-wrap { background: var(--black); overflow: hidden; padding: 1rem 0; }
-    .marquee-track { display: flex; white-space: nowrap; animation: marquee 22s linear infinite; }
-    .marquee-item { font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gray); padding: 0 2.5rem; flex-shrink: 0; }
-    .marquee-item span { color: var(--accent); margin-right: .4rem; }
-    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    /* Rotating badge */
+    .hero-right {
+      position:relative; z-index:1;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .badge-wrap {
+      position:relative; width:260px; height:260px;
+      opacity:0; animation:fadeUp .7s .5s ease forwards;
+    }
+    .badge-ring {
+      position:absolute; inset:0;
+      border:1px dashed rgba(240,230,211,.2); border-radius:50%;
+      animation: spin 18s linear infinite;
+    }
+    .badge-text {
+      position:absolute; inset:0;
+      animation: spin 18s linear infinite;
+    }
+    .badge-text textPath { fill:var(--sand); font-size:11px; font-family:'Space Grotesk',sans-serif; letter-spacing:.25em; }
+    .badge-center {
+      position:absolute; inset:30px;
+      background:var(--coral); border-radius:50%;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:.25rem;
+    }
+    .badge-center-num {
+      font-family:'Space Grotesk',sans-serif; font-weight:700;
+      font-size:2.6rem; line-height:1; color:#fff;
+    }
+    .badge-center-label {
+      font-size:.62rem; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.7);
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* SECTIONS */
-    section { padding: 7rem 4rem; }
-    .section-header { display: flex; align-items: baseline; gap: 1.5rem; margin-bottom: 4rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
-    .section-num { font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gray); }
-    .section-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 800; letter-spacing: -.03em; }
-    .section-line { flex: 1; height: 1px; background: var(--border); margin-bottom: .25rem; }
+    /* ─── MARQUEE ─── */
+    .marquee-wrap { background:var(--coral); overflow:hidden; padding:.85rem 0; }
+    .marquee-track { display:flex; white-space:nowrap; animation:marquee 24s linear infinite; }
+    .marquee-item { font-family:'Space Grotesk',sans-serif; font-size:.7rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:#fff; padding:0 2.5rem; flex-shrink:0; opacity:.85; }
+    .marquee-item .dot { margin-right:.5rem; opacity:.5; }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-    /* ABOUT */
-    #about { border-bottom: 1px solid var(--border); }
-    .about-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 5rem; align-items: start; }
-    .about-text p { font-size: .92rem; line-height: 1.85; color: var(--gray); margin-bottom: 1.3rem; }
-    .about-text p strong { color: var(--black); font-weight: 500; }
-    .about-text p:last-child { margin-bottom: 0; }
-    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
-    .skill-item { display: flex; flex-direction: column; gap: .25rem; background: var(--white); padding: 1.1rem 1.4rem; transition: background .2s, color .2s; }
-    .skill-item:hover { background: var(--black); color: var(--white); }
-    .skill-name { font-size: .78rem; }
-    .skill-cat { font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gray); transition: color .2s; }
-    .skill-item:hover .skill-cat { color: var(--accent); }
+    /* ─── SECTIONS SHARED ─── */
+    .section { padding: 7rem 3rem; }
+    .section-eyebrow {
+      display:flex; align-items:center; gap:1rem; margin-bottom:1rem;
+    }
+    .section-eyebrow-line { width:32px; height:2px; background:var(--coral); }
+    .section-eyebrow-label { font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:var(--coral); }
+    .section-title {
+      font-family:'Space Grotesk',sans-serif;
+      font-size:clamp(2rem,4vw,3.2rem); font-weight:700; letter-spacing:-.03em;
+      margin-bottom:3.5rem;
+    }
 
-    /* PROJECTS */
-    #projects { border-bottom: 1px solid var(--border); }
-    .projects-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); }
-    .project-row { background: var(--white); display: grid; grid-template-columns: 300px 1fr 72px; align-items: stretch; transition: background .25s; position: relative; overflow: hidden; }
-    .project-row:hover { background: #0a0a0a; color: var(--white); }
+    /* ─── ABOUT ─── */
+    #about { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .about-grid { display:grid; grid-template-columns:1.2fr 1fr; gap:5rem; align-items:start; }
+    .about-text p { font-size:.93rem; line-height:1.85; color:var(--muted); margin-bottom:1.2rem; }
+    .about-text p:last-child { margin-bottom:0; }
+    .about-text strong { color:var(--navy); font-weight:600; }
+    .about-availability {
+      display:inline-flex; align-items:center; gap:.6rem; margin-top:2rem;
+      padding:.6rem 1.2rem; border:1px solid var(--border); border-radius:100px;
+      font-size:.72rem; letter-spacing:.06em; color:var(--navy);
+    }
+    .avail-dot { width:7px;height:7px;border-radius:50%;background:#22c55e;animation:pulse-g 2s infinite; }
+    @keyframes pulse-g { 0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}60%{box-shadow:0 0 0 6px rgba(34,197,94,0)} }
 
-    /* FIXED PREVIEW STYLES USING STATIC IMAGES */
-    .project-preview { position: relative; overflow: hidden; background: #e0ddd8; height: 200px; border-right: 1px solid var(--border); }
-    .project-preview img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(15%); transition: filter .25s ease; }
-    .project-row:hover .project-preview img { filter: grayscale(0%); }
-    .preview-overlay { position: absolute; inset: 0; background: rgba(10,10,10, 0.04); pointer-events: none; }
-    .project-row:hover .project-preview { border-right-color: #222; }
+    /* Skills bento */
+    .skills-bento { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
+    .skill-card {
+      padding:1.2rem 1.4rem; border:1px solid var(--border); border-radius:4px;
+      display:flex; flex-direction:column; gap:.3rem;
+      transition:background .2s, border-color .2s, transform .2s;
+    }
+    .skill-card:hover { background:var(--navy); border-color:var(--navy); transform:translateY(-2px); }
+    .skill-card:hover .skill-name { color:#fff; }
+    .skill-card:hover .skill-cat { color:var(--coral); }
+    .skill-name { font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:.85rem; color:var(--navy); transition:color .2s; }
+    .skill-cat { font-size:.6rem; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); transition:color .2s; }
 
-    .project-info { padding: 2.2rem 2.5rem; display: flex; flex-direction: column; gap: .85rem; justify-content: center; }
-    .project-meta { display: flex; align-items: center; gap: 1rem; }
-    .project-num { font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gray); transition: color .25s; }
-    .project-row:hover .project-num { color: var(--accent); }
-    .project-type { font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; padding: .2rem .6rem; border: 1px solid var(--border); color: var(--gray); transition: all .25s; }
-    .project-row:hover .project-type { border-color: #333; color: #777; }
-    .project-title { font-family: 'Syne', sans-serif; font-size: 1.45rem; font-weight: 700; letter-spacing: -.03em; line-height: 1.1; }
-    .project-desc { font-size: .78rem; line-height: 1.75; color: var(--gray); transition: color .25s; }
-    .project-row:hover .project-desc { color: #999; }
-    .project-stack { display: flex; flex-wrap: wrap; gap: .35rem; }
-    .tag { font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; padding: .25rem .55rem; border: 1px solid var(--border); color: var(--gray); transition: all .25s; }
-    .project-row:hover .tag { border-color: #333; color: #777; }
-    .project-cta { display: flex; align-items: center; justify-content: center; border-left: 1px solid var(--border); transition: border-color .25s; }
-    .project-row:hover .project-cta { border-left-color: #222; }
-    .project-arrow { font-size: 1.4rem; color: var(--border); text-decoration: none; transition: color .25s, transform .25s; }
-    .project-row:hover .project-arrow { color: var(--accent); transform: translate(3px,-3px); }
+    /* ─── PROJECTS ─── */
+    #projects { background:var(--navy); color:var(--sand); border-bottom:none; }
+    #projects .section-title { color:var(--sand); }
+    #projects .section-eyebrow-label { color:var(--coral); }
+    .projects-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+    .project-card {
+      background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08);
+      border-radius:6px; overflow:hidden;
+      display:flex; flex-direction:column;
+      transition:border-color .25s, transform .25s;
+    }
+    .project-card:hover { border-color:var(--coral); transform:translateY(-4px); }
+    .project-card.featured { grid-column:1/-1; display:grid; grid-template-columns:1.2fr 1fr; }
+    .project-img {
+      width:100%; height:200px; object-fit:cover; display:block;
+      filter:saturate(.6); transition:filter .3s;
+    }
+    .project-card:hover .project-img { filter:saturate(1); }
+    .project-card.featured .project-img { height:100%; min-height:220px; }
+    .project-body { padding:2rem; display:flex; flex-direction:column; gap:.8rem; flex:1; }
+    .project-meta { display:flex; align-items:center; gap:.75rem; }
+    .project-num { font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; color:var(--coral); }
+    .project-type { font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; padding:.2rem .6rem; border:1px solid rgba(255,255,255,.12); color:rgba(240,230,211,.5); border-radius:2px; }
+    .project-title { font-family:'Space Grotesk',sans-serif; font-size:1.3rem; font-weight:700; letter-spacing:-.02em; color:#fff; line-height:1.15; }
+    .project-card.featured .project-title { font-size:1.6rem; }
+    .project-desc { font-size:.8rem; line-height:1.75; color:rgba(240,230,211,.55); }
+    .project-footer { display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:1rem; border-top:1px solid rgba(255,255,255,.07); }
+    .project-tags { display:flex; gap:.35rem; flex-wrap:wrap; }
+    .tag { font-size:.58rem; letter-spacing:.08em; text-transform:uppercase; padding:.2rem .55rem; border:1px solid rgba(255,255,255,.1); color:rgba(240,230,211,.4); border-radius:2px; }
+    .project-link { display:flex; align-items:center; justify-content:center; width:34px; height:34px; border:1px solid rgba(255,255,255,.12); border-radius:50%; color:var(--sand); font-size:1rem; text-decoration:none; transition:all .2s; flex-shrink:0; }
+    .project-link:hover { background:var(--coral); border-color:var(--coral); color:#fff; }
 
-    /* FORMATION */
+    /* ─── EXPERIENCE ─── */
     #experience { border-bottom: 1px solid var(--border); }
-    .formation-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
-    .formation-card { background: var(--white); padding: 2.5rem; display: flex; flex-direction: column; gap: .6rem; transition: background .2s; }
-    .formation-card:hover { background: #f0ede8; }
-    .formation-year { font-size: .65rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gray); }
-    .formation-degree { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; letter-spacing: -.02em; }
-    .formation-school { font-size: .78rem; color: var(--gray); }
-    .formation-badge { display: inline-block; margin-top: .5rem; font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; padding: .25rem .65rem; background: var(--black); color: var(--accent); align-self: flex-start; }
+    .exp-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
+    .exp-card {
+      padding:2rem 2.2rem; border:1px solid var(--border); border-radius:4px;
+      display:flex; flex-direction:column; gap:.5rem;
+      transition:border-color .2s, background .2s;
+    }
+    .exp-card:hover { border-color:var(--coral); background:rgba(255,77,58,.03); }
+    .exp-year { font-size:.65rem; letter-spacing:.18em; text-transform:uppercase; color:var(--coral); }
+    .exp-degree { font-family:'Space Grotesk',sans-serif; font-size:1rem; font-weight:700; letter-spacing:-.01em; }
+    .exp-school { font-size:.78rem; color:var(--muted); }
+    .exp-badge { display:inline-block; margin-top:.5rem; align-self:flex-start; padding:.2rem .7rem; background:var(--coral); color:#fff; font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; border-radius:2px; }
 
-    /* CONTACT */
-    #contact { display: grid; grid-template-columns: 1fr 1fr; padding: 0; min-height: 55vh; }
-    .contact-left { padding: 7rem 4rem; border-right: 1px solid var(--border); display: flex; flex-direction: column; justify-content: center; }
-    .contact-heading { font-family: 'Syne', sans-serif; font-size: clamp(2.4rem, 4.5vw, 3.8rem); font-weight: 800; letter-spacing: -.04em; line-height: 1.0; margin-bottom: 1.5rem; }
-    .contact-heading em { font-style: normal; -webkit-text-stroke: 2px var(--black); color: transparent; }
-    .contact-sub { font-size: .82rem; color: var(--gray); line-height: 1.75; max-width: 340px; margin-bottom: 2.5rem; }
-    .contact-right { padding: 7rem 4rem; display: flex; flex-direction: column; justify-content: center; gap: 1px; background: var(--border); }
-    .contact-link { display: flex; justify-content: space-between; align-items: center; background: var(--white); padding: 1.5rem 2rem; text-decoration: none; color: var(--black); font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; transition: all .2s; }
-    .contact-link:hover { background: var(--black); color: var(--accent); }
+    /* ─── CONTACT ─── */
+    #contact {
+      background:var(--navy);
+      display:grid; grid-template-columns:1fr 1fr;
+      min-height:60vh;
+    }
+    .contact-left {
+      padding:7rem 3.5rem; display:flex; flex-direction:column; justify-content:center;
+      border-right:1px solid rgba(255,255,255,.07);
+    }
+    .contact-heading {
+      font-family:'Space Grotesk',sans-serif;
+      font-size:clamp(2.5rem,5vw,4rem); font-weight:700; letter-spacing:-.04em;
+      line-height:.95; color:var(--sand); margin-bottom:1.5rem;
+    }
+    .contact-heading em { font-style:normal; color:var(--coral); }
+    .contact-sub { font-size:.85rem; line-height:1.8; color:rgba(240,230,211,.55); max-width:320px; margin-bottom:2.5rem; }
+    .contact-right {
+      padding:7rem 3.5rem; display:flex; flex-direction:column; justify-content:center;
+      gap:2px;
+    }
+    .contact-link {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:1.4rem 1.6rem;
+      text-decoration:none; color:var(--sand);
+      font-family:'Space Grotesk',sans-serif; font-size:.8rem; font-weight:500;
+      letter-spacing:.05em; text-transform:uppercase;
+      border:1px solid rgba(255,255,255,.07); border-radius:3px; margin-bottom:.5rem;
+      transition:all .2s;
+    }
+    .contact-link:hover { background:var(--coral); border-color:var(--coral); }
+    .contact-link span { opacity:.4; transition:opacity .2s; }
+    .contact-link:hover span { opacity:1; }
 
-    /* FOOTER */
-    footer { padding: 2rem 4rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gray); }
+    /* ─── FOOTER ─── */
+    footer {
+      background:var(--navy); padding:1.8rem 3rem;
+      border-top:1px solid rgba(255,255,255,.07);
+      display:flex; justify-content:space-between; align-items:center;
+      font-size:.68rem; letter-spacing:.1em; text-transform:uppercase;
+      color:rgba(240,230,211,.3);
+    }
 
-    /* ANIMATIONS */
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
-    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+    .reveal { opacity:0; transform:translateY(24px); transition:opacity .65s ease, transform .65s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
 
-    /* COMPREHENSIVE RESPONSIVE DESIGN (PHONES & TABLETS) */
-    @media (max-width: 960px) {
-      .cursor, .cursor-ring { display: none !important; }
-      body { cursor: default !important; }
-      
-      nav { padding: 1.2rem 1.5rem; }
-      .nav-links { display: none; } /* Hides structural list items on narrow mobile layouts */
-      
-      .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 4.5rem; }
-      .hero-left { padding: 3.5rem 1.5rem 2rem; border-right: none; border-bottom: 1px solid var(--border); }
-      .hero-name { font-size: 2.8rem; line-height: 1.0; }
-      .hero-desc { max-width: 100%; margin-bottom: 2rem; }
-      .hero-cta { flex-direction: column; gap: .75rem; }
-      .btn { width: 100%; text-align: center; cursor: default; }
-      
-      .hero-right { padding: 2.5rem 1.5rem; border-left: none; border-top: none; gap: 2rem; }
-      
-      section { padding: 4rem 1.5rem; }
-      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .skills-grid { grid-template-columns: 1fr; }
-      
-      .projects-list { gap: 1.5rem; background: transparent; }
-      .project-row { grid-template-columns: 1fr; border: 1px solid var(--border); }
-      .project-preview { height: 160px; border-right: none; border-bottom: 1px solid var(--border); }
-      .project-info { padding: 1.5rem; }
-      .project-cta { border-left: none; border-top: 1px solid var(--border); justify-content: flex-end; padding: 1rem 1.5rem; }
-      
-      .formation-grid { grid-template-columns: 1fr; }
-      
-      #contact { grid-template-columns: 1fr; min-height: auto; }
-      .contact-left { padding: 4rem 1.5rem; border-right: none; border-bottom: 1px solid var(--border); }
-      .contact-right { padding: 0; background: var(--border); gap: 1px; }
-      .contact-link { padding: 1.25rem 1.5rem; }
-      
-      footer { padding: 2rem 1.5rem; flex-direction: column; gap: .4rem; text-align: center; }
+    /* ─── RESPONSIVE ─── */
+    @media(max-width:900px) {
+      nav { padding:1.1rem 1.5rem; }
+      .nav-links { display:none; }
+      .hero { grid-template-columns:1fr; min-height:auto; padding-top:4.5rem; }
+      .hero-bg { clip-path:none; }
+      .hero-left { padding:4rem 1.5rem 3rem; }
+      .hero-right { padding:3rem 1.5rem; }
+      .badge-wrap { width:200px; height:200px; }
+      .section { padding:4.5rem 1.5rem; }
+      .about-grid { grid-template-columns:1fr; gap:2.5rem; }
+      .skills-bento { grid-template-columns:1fr 1fr; }
+      .projects-grid { grid-template-columns:1fr; }
+      .project-card.featured { grid-template-columns:1fr; }
+      .project-card.featured .project-img { height:200px; }
+      .exp-grid { grid-template-columns:1fr; }
+      #contact { grid-template-columns:1fr; min-height:auto; }
+      .contact-left { padding:4rem 1.5rem 2rem; border-right:none; border-bottom:1px solid rgba(255,255,255,.07); }
+      .contact-right { padding:2rem 1.5rem 4rem; }
+      footer { flex-direction:column; gap:.5rem; text-align:center; padding:1.5rem; }
+      .hero::after { display:none; }
     }
   </style>
 </head>
 <body>
 
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
-  <nav>
-    <a href="#" class="nav-logo">Touil<span>.dev</span></a>
-    <ul class="nav-links">
-      <li><a href="#about">À propos</a></li>
-      <li><a href="#projects">Projets</a></li>
-      <li><a href="#experience">Expérience</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-dot"></span>
+    Touil Abdelhalim
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#projects">Projets</a></li>
+    <li><a href="#experience">Parcours</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
 
-  <section class="hero" id="home">
-    <div class="hero-left">
-      <p class="hero-eyebrow"><span class="nav-dot"></span>Disponible pour missions · Alger, Algérie</p>
-      <h1 class="hero-name">
-        Touil<br>
-        <span class="outline">Abdelhalim</span>
-      </h1>
-      <p class="hero-desc">
-        Développeur web freelance spécialisé dans la création de sites vitrine et e-commerce.
-        Je gère chaque projet de A à Z : conception, développement, hébergement et maintenance.
-      </p>
-      <div class="hero-cta">
-        <a href="#projects" class="btn btn-primary">Voir mes projets</a>
-        <a href="#contact" class="btn btn-outline">Me contacter</a>
-      </div>
-    </div>
-    <div class="hero-right">
-      <div class="hero-badge">
-        <div class="hero-badge-icon">🎓</div>
-        <div class="hero-badge-text">
-          <strong>Technicien Supérieur BDD</strong>
-          Sup IBNROCHD · Alger, 2023
-        </div>
-      </div>
-      <div class="hero-divider"></div>
-      <div class="hero-badge">
-        <div class="hero-badge-icon">🏢</div>
-        <div class="hero-badge-text">
-          <strong>Stage · Algérie Télécom</strong>
-          Portail de gestion des candidatures
-        </div>
-      </div>
-      <div class="hero-divider"></div>
-      <div class="hero-tech">
-        <span class="hero-tech-label">Stack principal</span>
-        <div class="hero-tech-pills">
-          <span class="hero-tech-pill">PHP</span>
-          <span class="hero-tech-pill">MySQL</span>
-          <span class="hero-tech-pill">JavaScript</span>
-          <span class="hero-tech-pill">Bootstrap</span>
-          <span class="hero-tech-pill">WordPress</span>
-          <span class="hero-tech-pill">Figma</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="marquee-wrap">
-    <div class="marquee-track">
-      <span class="marquee-item"><span>✦</span>PHP & MySQL</span>
-      <span class="marquee-item"><span>✦</span>HTML / CSS / JS</span>
-      <span class="marquee-item"><span>✦</span>Bootstrap</span>
-      <span class="marquee-item"><span>✦</span>WordPress</span>
-      <span class="marquee-item"><span>✦</span>Figma</span>
-      <span class="marquee-item"><span>✦</span>Git / GitHub</span>
-      <span class="marquee-item"><span>✦</span>Sites Vitrine</span>
-      <span class="marquee-item"><span>✦</span>E-Commerce</span>
-      <span class="marquee-item"><span>✦</span>Bases de Données</span>
-      <span class="marquee-item"><span>✦</span>Hébergement Web</span>
-      <span class="marquee-item"><span>✦</span>PHP & MySQL</span>
-      <span class="marquee-item"><span>✦</span>HTML / CSS / JS</span>
-      <span class="marquee-item"><span>✦</span>Bootstrap</span>
-      <span class="marquee-item"><span>✦</span>WordPress</span>
-      <span class="marquee-item"><span>✦</span>Figma</span>
-      <span class="marquee-item"><span>✦</span>Git / GitHub</span>
-      <span class="marquee-item"><span>✦</span>Sites Vitrine</span>
-      <span class="marquee-item"><span>✦</span>E-Commerce</span>
-      <span class="marquee-item"><span>✦</span>Bases de Données</span>
-      <span class="marquee-item"><span>✦</span>Hébergement Web</span>
+<!-- ── HERO ── -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-left">
+    <p class="hero-eyebrow">
+      <span>✦</span> Développeur Web Freelance · Alger
+    </p>
+    <h1 class="hero-name">
+      Sites qui<br>
+      <em>convertissent.</em>
+    </h1>
+    <p class="hero-desc">
+      Je conçois et déploie des sites vitrine et e-commerce pour les entreprises algériennes —
+      du cahier des charges jusqu'à la mise en ligne. PHP, MySQL, JavaScript.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">Voir mes projets</a>
+      <a href="#contact" class="btn btn-outline">Me contacter</a>
     </div>
   </div>
-
-  <section id="about">
-    <div class="section-header">
-      <span class="section-num">01</span>
-      <h2 class="section-title">À propos</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="about-grid">
-      <div class="about-text reveal">
-        <p>Je suis <strong>Touil Abdelhalim</strong>, développeur web freelance basé à Alger. Je conçois et déploie des sites vitrine et e-commerce adaptés aux besoins des entreprises algériennes — du cahier des charges jusqu'à la mise en ligne.</p>
-        <p>Titulaire d'un <strong>Technicien Supérieur en Base de Données</strong> (Sup IBNROCHD, 2023), j'ai acquis une solide expérience en conception et gestion de bases de données, complétée par un stage chez <strong>Algérie Télécom</strong> où j'ai développé un portail web complet de gestion des candidatures.</p>
-        <p>Actuellement ouvert à des <strong>missions freelance</strong> et des <strong>opportunités full-time</strong>. Disponible à Alger et en télétravail.</p>
-      </div>
-      <div class="skills-grid reveal">
-        <div class="skill-item"><span class="skill-name">PHP / MySQL</span><span class="skill-cat">Backend</span></div>
-        <div class="skill-item"><span class="skill-name">HTML / CSS</span><span class="skill-cat">Frontend</span></div>
-        <div class="skill-item"><span class="skill-name">JavaScript</span><span class="skill-cat">Frontend</span></div>
-        <div class="skill-item"><span class="skill-name">Bootstrap</span><span class="skill-cat">UI</span></div>
-        <div class="skill-item"><span class="skill-name">WordPress</span><span class="skill-cat">CMS</span></div>
-        <div class="skill-item"><span class="skill-name">Figma</span><span class="skill-cat">Design</span></div>
-        <div class="skill-item"><span class="skill-name">Git / GitHub</span><span class="skill-cat">Outils</span></div>
-        <div class="skill-item"><span class="skill-name">Bases de données</span><span class="skill-cat">BDD</span></div>
+  <div class="hero-right">
+    <div class="badge-wrap">
+      <div class="badge-ring"></div>
+      <svg class="badge-text" viewBox="0 0 260 260">
+        <defs>
+          <path id="circle" d="M130,130 m-100,0 a100,100 0 1,1 200,0 a100,100 0 1,1 -200,0"/>
+        </defs>
+        <text>
+          <textPath href="#circle">
+            DISPONIBLE · ALGER · FREELANCE · 2026 · DISPONIBLE · ALGER · FREELANCE · 2026 ·
+          </textPath>
+        </text>
+      </svg>
+      <div class="badge-center">
+        <span class="badge-center-num">4+</span>
+        <span class="badge-center-label">Projets livrés</span>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="projects">
-    <div class="section-header">
-      <span class="section-num">02</span>
-      <h2 class="section-title">Projets</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="projects-list">
+<!-- ── MARQUEE ── -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item"><span class="dot">◆</span>PHP & MySQL</span>
+    <span class="marquee-item"><span class="dot">◆</span>HTML / CSS / JS</span>
+    <span class="marquee-item"><span class="dot">◆</span>Bootstrap</span>
+    <span class="marquee-item"><span class="dot">◆</span>WordPress</span>
+    <span class="marquee-item"><span class="dot">◆</span>Figma</span>
+    <span class="marquee-item"><span class="dot">◆</span>Git / GitHub</span>
+    <span class="marquee-item"><span class="dot">◆</span>Sites Vitrine</span>
+    <span class="marquee-item"><span class="dot">◆</span>E-Commerce</span>
+    <span class="marquee-item"><span class="dot">◆</span>Bases de Données</span>
+    <span class="marquee-item"><span class="dot">◆</span>Hébergement Web</span>
+    <span class="marquee-item"><span class="dot">◆</span>PHP & MySQL</span>
+    <span class="marquee-item"><span class="dot">◆</span>HTML / CSS / JS</span>
+    <span class="marquee-item"><span class="dot">◆</span>Bootstrap</span>
+    <span class="marquee-item"><span class="dot">◆</span>WordPress</span>
+    <span class="marquee-item"><span class="dot">◆</span>Figma</span>
+    <span class="marquee-item"><span class="dot">◆</span>Git / GitHub</span>
+    <span class="marquee-item"><span class="dot">◆</span>Sites Vitrine</span>
+    <span class="marquee-item"><span class="dot">◆</span>E-Commerce</span>
+    <span class="marquee-item"><span class="dot">◆</span>Bases de Données</span>
+    <span class="marquee-item"><span class="dot">◆</span>Hébergement Web</span>
+  </div>
+</div>
 
-      <div class="project-row reveal">
-        <div class="project-preview">
-          <img src="sarlhaddad.png" alt="Sarl Haddad Télécommunications Preview" loading="lazy">
-          <div class="preview-overlay"></div>
-        </div>
-        <div class="project-info">
-          <div class="project-meta">
-            <span class="project-num">001</span>
-            <span class="project-type">Site Vitrine · Corporate</span>
-          </div>
-          <h3 class="project-title">Sarl Haddad Télécommunications</h3>
-          <p class="project-desc">Site corporate pour une entreprise spécialisée en installation de réseaux GSM, infrastructure télécoms et immobilier. Présence en ligne professionnelle reflétant 10+ ans d'expertise dans le secteur.</p>
-          <div class="project-stack">
-            <span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">HTML/CSS</span><span class="tag">Bootstrap</span>
-          </div>
-        </div>
-        <div class="project-cta">
-          <a href="https://www.sarlhaddad.com" target="_blank" class="project-arrow">↗</a>
-        </div>
-      </div>
-
-      <div class="project-row reveal">
-        <div class="project-preview">
-          <img src="bouiracouture.png" alt="Bouira Couture Preview" loading="lazy">
-          <div class="preview-overlay"></div>
-        </div>
-        <div class="project-info">
-          <div class="project-meta">
-            <span class="project-num">002</span>
-            <span class="project-type">E-Commerce</span>
-          </div>
-          <h3 class="project-title">Bouira Couture</h3>
-          <p class="project-desc">Plateforme e-commerce complète pour la vente et réparation de machines à coudre. Catalogue produits, panier, comptes clients et livraison dans les 58 wilayas d'Algérie.</p>
-          <div class="project-stack">
-            <span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">JavaScript</span><span class="tag">E-Commerce</span>
-          </div>
-        </div>
-        <div class="project-cta">
-          <a href="https://www.bouiracouture.com" target="_blank" class="project-arrow">↗</a>
-        </div>
-      </div>
-
-      <div class="project-row reveal">
-        <div class="project-preview">
-          <img src="elvitransport.png" alt="ELVI Transport INC Preview" loading="lazy">
-          <div class="preview-overlay"></div>
-        </div>
-        <div class="project-info">
-          <div class="project-meta">
-            <span class="project-num">003</span>
-            <span class="project-type">Vitrine</span>
-          </div>
-          <h3 class="project-title">ELVI Transport INC</h3>
-          <p class="project-desc">Site vitrine professionnel moderne développé pour une entreprise de transport logistique.</p>
-          <div class="project-stack">
-             <span class="tag">HTML/CSS</span><span class="tag">JavaScript</span>
-          </div>
-        </div>
-        <div class="project-cta">
-          <a href="https://hali7m.github.io/Elvi-transport/" target="_blank" class="project-arrow">↗</a>
-        </div>
-      </div>
-
-      <div class="project-row reveal">
-        <div class="project-preview">
-          <img src="chabakatcom.png" alt="Chabakat Com Preview" loading="lazy">
-          <div class="preview-overlay"></div>
-        </div>
-        <div class="project-info">
-          <div class="project-meta">
-            <span class="project-num">004</span>
-            <span class="project-type">Site Vitrine · Télécoms</span>
-          </div>
-          <h3 class="project-title">Chabakat Com</h3>
-          <p class="project-desc">Vitrine pour un intégrateur télécom algérien (fondé en 2012). Couvre GSM, FTTH, fibre optique et génie civil sur 69 wilayas. Partenaires : Mobilis, Ooredoo, Huawei, ZTE.</p>
-          <div class="project-stack">
-            <span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">Bootstrap</span><span class="tag">Télécoms</span>
-          </div>
-        </div>
-        <div class="project-cta">
-          <a href="https://project3.howto.rocks/?i=1" target="_blank" class="project-arrow">↗</a>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <section id="experience">
-    <div class="section-header">
-      <span class="section-num">03</span>
-      <h2 class="section-title">Formation & Expérience</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="formation-grid">
-      <div class="formation-card reveal">
-        <div class="formation-year">2020 — 2023</div>
-        <div class="formation-degree">Technicien Supérieur — Base de Données</div>
-        <div class="formation-school">Sup IBNROCHD Hydra, Alger</div>
-        <span class="formation-badge">Diplômé</span>
-      </div>
-      <div class="formation-card reveal">
-        <div class="formation-year">2019 — 2020</div>
-        <div class="formation-degree">Licence Math-Informatique</div>
-        <div class="formation-school">Université M'Hamed Bougara, Boumerdes</div>
+<!-- ── ABOUT ── -->
+<section class="section" id="about">
+  <div class="section-eyebrow"><div class="section-eyebrow-line"></div><span class="section-eyebrow-label">01 — À propos</span></div>
+  <h2 class="section-title">Développeur web<br>basé à Alger</h2>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>Je suis <strong>Touil Abdelhalim</strong>, développeur web freelance basé à Alger. Je conçois et déploie des sites vitrine et e-commerce adaptés aux besoins des entreprises algériennes — du cahier des charges jusqu'à la mise en ligne.</p>
+      <p>Titulaire d'un <strong>Technicien Supérieur en Base de Données</strong> (Sup IBNROCHD, 2023), j'ai acquis une solide expérience en conception et gestion de bases de données, complétée par un stage chez <strong>Algérie Télécom</strong> où j'ai développé un portail web complet de gestion des candidatures.</p>
+      <p>Actuellement ouvert à des <strong>missions freelance</strong> et des <strong>opportunités full-time</strong>. Disponible à Alger et en télétravail.</p>
+      <div class="about-availability">
+        <span class="avail-dot"></span>
+        Disponible pour missions
       </div>
     </div>
-  </section>
-
-  <section id="contact">
-    <div class="contact-left">
-      <h2 class="contact-heading">Travaillons<br><em>ensemble</em>.</h2>
-      <p class="contact-sub">Disponible pour des missions freelance et opportunités full-time. N'hésitez pas à me contacter pour discuter de votre projet.</p>
-      <a href="mailto:touilabdelhalim17@gmail.com" class="btn btn-primary">Envoyer un message →</a>
+    <div class="skills-bento reveal">
+      <div class="skill-card"><span class="skill-name">PHP / MySQL</span><span class="skill-cat">Backend</span></div>
+      <div class="skill-card"><span class="skill-name">HTML / CSS</span><span class="skill-cat">Frontend</span></div>
+      <div class="skill-card"><span class="skill-name">JavaScript</span><span class="skill-cat">Frontend</span></div>
+      <div class="skill-card"><span class="skill-name">Bootstrap</span><span class="skill-cat">UI Framework</span></div>
+      <div class="skill-card"><span class="skill-name">WordPress</span><span class="skill-cat">CMS</span></div>
+      <div class="skill-card"><span class="skill-name">Figma</span><span class="skill-cat">Design</span></div>
+      <div class="skill-card"><span class="skill-name">Git / GitHub</span><span class="skill-cat">Outils</span></div>
+      <div class="skill-card"><span class="skill-name">Bases de données</span><span class="skill-cat">BDD</span></div>
     </div>
-    <div class="contact-right">
-      <a href="mailto:touilabdelhalim17@gmail.com" class="contact-link">touilabdelhalim17@gmail.com <span>↗</span></a>
-      <a href="tel:+213792235187" class="contact-link">+213 792 235 187 <span>↗</span></a>
-      <a href="https://github.com/touilabdelhalim" target="_blank" class="contact-link">GitHub <span>↗</span></a>
-      <a href="https://linkedin.com/in/touil-abdelhalim" target="_blank" class="contact-link">LinkedIn <span>↗</span></a>
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section class="section" id="projects">
+  <div class="section-eyebrow"><div class="section-eyebrow-line"></div><span class="section-eyebrow-label">02 — Projets</span></div>
+  <h2 class="section-title">Travaux récents</h2>
+  <div class="projects-grid">
+
+    <div class="project-card featured reveal">
+      <img src="images/sarlhaddad.png" alt="Sarl Haddad" class="project-img">
+      <div class="project-body">
+        <div class="project-meta">
+          <span class="project-num">001</span>
+          <span class="project-type">Corporate · Télécoms</span>
+        </div>
+        <h3 class="project-title">Sarl Haddad Télécommunications</h3>
+        <p class="project-desc">Site corporate pour une entreprise spécialisée en installation de réseaux GSM, infrastructure télécoms et immobilier. Présence en ligne professionnelle reflétant 10+ ans d'expertise.</p>
+        <div class="project-footer">
+          <div class="project-tags">
+            <span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">Bootstrap</span>
+          </div>
+          <a href="https://www.sarlhaddad.com" target="_blank" class="project-link">↗</a>
+        </div>
+      </div>
     </div>
-  </section>
 
-  <footer>
-    <span>© 2026 Touil Abdelhalim</span>
-    <span>Développeur Web · Alger, Algérie</span>
-    <span>✦ Disponible pour missions</span>
-  </footer>
+    <div class="project-card reveal">
+      <img src="images/bouiracouture.png" alt="Bouira Couture" class="project-img">
+      <div class="project-body">
+        <div class="project-meta">
+          <span class="project-num">002</span>
+          <span class="project-type">E-Commerce</span>
+        </div>
+        <h3 class="project-title">Bouira Couture</h3>
+        <p class="project-desc">Plateforme e-commerce complète pour la vente et réparation de machines à coudre. Catalogue, panier, comptes clients, livraison dans 58 wilayas.</p>
+        <div class="project-footer">
+          <div class="project-tags">
+            <span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">JS</span>
+          </div>
+          <a href="https://www.bouiracouture.com" target="_blank" class="project-link">↗</a>
+        </div>
+      </div>
+    </div>
 
-  <script>
-    const cur = document.getElementById('cursor');
-    const ring = document.getElementById('cursorRing');
-    let mx=0,my=0,rx=0,ry=0;
-    
-    document.addEventListener('mousemove',e=>{ 
-      mx=e.clientX; 
-      my=e.clientY; 
-      cur.style.left=mx+'px'; 
-      cur.style.top=my+'px'; 
+    <div class="project-card reveal">
+      <img src="images/elvitransport.png" alt="ELVI Transport" class="project-img">
+      <div class="project-body">
+        <div class="project-meta">
+          <span class="project-num">003</span>
+          <span class="project-type">Vitrine · Logistique</span>
+        </div>
+        <h3 class="project-title">ELVI Transport INC</h3>
+        <p class="project-desc">Site vitrine professionnel moderne développé pour une entreprise de transport logistique.</p>
+        <div class="project-footer">
+          <div class="project-tags">
+            <span class="tag">HTML/CSS</span><span class="tag">JavaScript</span>
+          </div>
+          <a href="https://hali7m.github.io/Elvi-transport/" target="_blank" class="project-link">↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <img src="images/chabakatcom.png" alt="Chabakat Com" class="project-img">
+      <div class="project-body">
+        <div class="project-meta">
+          <span class="project-num">004</span>
+          <span class="project-type">Vitrine · Télécoms</span>
+        </div>
+        <h3 class="project-title">Chabakat Com</h3>
+        <p class="project-desc">Vitrine pour un intégrateur télécom algérien. Couvre GSM, FTTH, fibre optique et génie civil sur 69 wilayas. Partenaires : Mobilis, Ooredoo, Huawei, ZTE.</p>
+        <div class="project-footer">
+          <div class="project-tags">
+            <span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">Bootstrap</span>
+          </div>
+          <a href="https://project3.howto.rocks/?i=1" target="_blank" class="project-link">↗</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ── -->
+<section class="section" id="experience">
+  <div class="section-eyebrow"><div class="section-eyebrow-line"></div><span class="section-eyebrow-label">03 — Parcours</span></div>
+  <h2 class="section-title">Formation & Expérience</h2>
+  <div class="exp-grid">
+    <div class="exp-card reveal">
+      <div class="exp-year">2020 — 2023</div>
+      <div class="exp-degree">Technicien Supérieur — Base de Données</div>
+      <div class="exp-school">Sup IBNROCHD Hydra, Alger</div>
+      <span class="exp-badge">Diplômé</span>
+    </div>
+    <div class="exp-card reveal">
+      <div class="exp-year">2019 — 2020</div>
+      <div class="exp-degree">Licence Math-Informatique</div>
+      <div class="exp-school">Université M'Hamed Bougara, Boumerdes</div>
+    </div>
+    <div class="exp-card reveal">
+      <div class="exp-year">Stage</div>
+      <div class="exp-degree">Développeur Web — Algérie Télécom</div>
+      <div class="exp-school">Portail de gestion des candidatures</div>
+      <span class="exp-badge">Complété</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="contact-left">
+    <h2 class="contact-heading">
+      Travaillons<br>
+      <em>ensemble.</em>
+    </h2>
+    <p class="contact-sub">Disponible pour des missions freelance et opportunités full-time. N'hésitez pas à me contacter pour discuter de votre projet.</p>
+    <a href="mailto:touilabdelhalim17@gmail.com" class="btn btn-primary">Envoyer un message →</a>
+  </div>
+  <div class="contact-right">
+    <a href="mailto:touilabdelhalim17@gmail.com" class="contact-link">touilabdelhalim17@gmail.com <span>↗</span></a>
+    <a href="tel:+213792235187" class="contact-link">+213 792 235 187 <span>↗</span></a>
+    <a href="https://github.com/touilabdelhalim" target="_blank" class="contact-link">GitHub <span>↗</span></a>
+    <a href="https://linkedin.com/in/touil-abdelhalim" target="_blank" class="contact-link">LinkedIn <span>↗</span></a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Touil Abdelhalim</span>
+  <span>Développeur Web · Alger, Algérie</span>
+  <span>✦ Disponible</span>
+</footer>
+
+<script>
+  // Cursor
+  const cur = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX; my=e.clientY;
+    cur.style.left=mx+'px'; cur.style.top=my+'px';
+  });
+  (function tick(){
+    rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(tick);
+  })();
+  document.querySelectorAll('a,button,.skill-card,.project-card,.exp-card,.contact-link').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ cur.classList.add('big'); ring.classList.add('big'); });
+    el.addEventListener('mouseleave',()=>{ cur.classList.remove('big'); ring.classList.remove('big'); });
+  });
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'),i*80); obs.unobserve(e.target); }
     });
-    
-    (function tick(){ 
-      rx+=(mx-rx)*.13; 
-      ry+=(my-ry)*.13; 
-      ring.style.left=rx+'px'; 
-      ring.style.top=ry+'px'; 
-      requestAnimationFrame(tick); 
-    })();
-    
-    document.querySelectorAll('a,button,.skill-item,.project-row,.exp-item,.formation-card,.langue-item,.hero-stat').forEach(el=>{
-      el.addEventListener('mouseenter',()=>{ cur.classList.add('big'); ring.classList.add('big'); });
-      el.addEventListener('mouseleave',()=>{ cur.classList.remove('big'); ring.classList.remove('big'); });
-    });
-    
-    const obs = new IntersectionObserver(entries=>{
-      entries.forEach((e,i)=>{ if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'),i*70); obs.unobserve(e.target); } });
-    },{threshold:.08});
-    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-  </script>
+  },{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
 </body>
 </html>
