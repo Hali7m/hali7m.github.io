@@ -212,21 +212,44 @@
     #projects { background:var(--navy); color:var(--sand); border-bottom:none; }
     #projects .section-title { color:var(--sand); }
     #projects .section-eyebrow-label { color:var(--coral); }
-    .projects-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+    .projects-carousel { position:relative; }
+    .carousel-track {
+      display:flex; gap:1.5rem; overflow-x:auto; scroll-snap-type:x mandatory;
+      scroll-behavior:smooth; -webkit-overflow-scrolling:touch;
+      padding:.25rem .25rem 1.5rem;
+      scrollbar-width:none;
+    }
+    .carousel-track::-webkit-scrollbar { display:none; }
+    .carousel-arrow {
+      position:absolute; top:38%; transform:translateY(-50%);
+      width:46px; height:46px; border-radius:50%;
+      background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.15);
+      color:var(--sand); font-size:1.3rem; line-height:1; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      z-index:5; transition:all .2s; backdrop-filter:blur(4px);
+    }
+    .carousel-arrow:hover { background:var(--coral); border-color:var(--coral); }
+    .carousel-arrow.prev { left:-8px; }
+    .carousel-arrow.next { right:-8px; }
+    .carousel-dots { display:flex; gap:.5rem; justify-content:center; margin-top:1.5rem; }
+    .carousel-dot {
+      width:8px; height:8px; border-radius:50%; border:none; padding:0;
+      background:rgba(255,255,255,.18); cursor:pointer; transition:all .25s;
+    }
+    .carousel-dot.active { background:var(--coral); width:26px; border-radius:5px; }
     .project-card {
       background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08);
       border-radius:6px; overflow:hidden;
       display:flex; flex-direction:column;
       transition:border-color .25s, transform .25s;
+      flex:0 0 auto; width:360px; scroll-snap-align:start;
     }
     .project-card:hover { border-color:var(--coral); transform:translateY(-4px); }
-    .project-card.featured { grid-column:1/-1; display:grid; grid-template-columns:1.2fr 1fr; }
     .project-img {
       width:100%; height:200px; object-fit:cover; display:block;
       filter:saturate(.6); transition:filter .3s;
     }
     .project-card:hover .project-img { filter:saturate(1); }
-    .project-card.featured .project-img { height:100%; min-height:220px; }
     .project-img-placeholder {
       width:100%; height:200px; display:flex; align-items:center; justify-content:center;
       background: linear-gradient(135deg, #16283b 0%, #24405c 100%);
@@ -245,7 +268,6 @@
     .project-num { font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; color:var(--coral); }
     .project-type { font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; padding:.2rem .6rem; border:1px solid rgba(255,255,255,.12); color:rgba(240,230,211,.5); border-radius:2px; }
     .project-title { font-family:'Space Grotesk',sans-serif; font-size:1.3rem; font-weight:700; letter-spacing:-.02em; color:#fff; line-height:1.15; }
-    .project-card.featured .project-title { font-size:1.6rem; }
     .project-desc { font-size:.8rem; line-height:1.75; color:rgba(240,230,211,.55); }
     .project-footer { display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:1rem; border-top:1px solid rgba(255,255,255,.07); }
     .project-tags { display:flex; gap:.35rem; flex-wrap:wrap; }
@@ -334,9 +356,10 @@
       .about-grid { grid-template-columns:1fr; gap:2.5rem; }
       .skills-bento { grid-template-columns:1fr 1fr; }
       .projects-grid { grid-template-columns:1fr; }
-      .project-card.featured { grid-template-columns:1fr; }
-      .project-card.featured .project-img,
-      .project-card.featured .project-img-placeholder { height:200px; }
+      .project-card { width:82vw; }
+      .carousel-arrow { width:38px; height:38px; font-size:1.1rem; }
+      .carousel-arrow.prev { left:2px; }
+      .carousel-arrow.next { right:2px; }
       .exp-grid { grid-template-columns:1fr; }
       #contact { grid-template-columns:1fr; min-height:auto; }
       .contact-left { padding:4rem 1.5rem 2rem; border-right:none; border-bottom:1px solid rgba(255,255,255,.07); }
@@ -469,9 +492,11 @@
 <section class="section" id="projects">
   <div class="section-eyebrow"><div class="section-eyebrow-line"></div><span class="section-eyebrow-label" data-key="section-eyebrow-projects">02 — Projets</span></div>
   <h2 class="section-title" data-key="section-title-projects">Travaux récents</h2>
-  <div class="projects-grid">
+  <div class="projects-carousel">
+    <button class="carousel-arrow prev" id="carouselPrev" aria-label="Projet précédent">‹</button>
+    <div class="carousel-track" id="carouselTrack">
 
-    <div class="project-card featured reveal">
+    <div class="project-card reveal">
       <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fdrsemmari.com%2F?w=900&amp;h=650" alt="Dr Semmari Ahlem" class="project-img" loading="lazy" onerror="this.style.display='none'">
       <div class="project-body">
         <div class="project-meta">
@@ -615,7 +640,10 @@
       </div>
     </div>
 
+    </div>
+    <button class="carousel-arrow next" id="carouselNext" aria-label="Projet suivant">›</button>
   </div>
+  <div class="carousel-dots" id="carouselDots"></div>
 </section>
 
 <!-- ── EXPERIENCE ── -->
@@ -761,6 +789,56 @@
     let saved = 'fr';
     try { saved = localStorage.getItem('site-lang') || 'fr'; } catch (e) {}
     applyLang(saved);
+  })();
+
+  // ── Projects carousel ──
+  (function () {
+    const track = document.getElementById('carouselTrack');
+    const prevBtn = document.getElementById('carouselPrev');
+    const nextBtn = document.getElementById('carouselNext');
+    const dotsWrap = document.getElementById('carouselDots');
+    if (!track) return;
+    const cards = Array.from(track.children);
+
+    cards.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Aller au projet ' + (i + 1));
+      dot.addEventListener('click', () => {
+        track.scrollTo({ left: cards[i].offsetLeft - track.offsetLeft, behavior: 'smooth' });
+      });
+      dotsWrap.appendChild(dot);
+    });
+    const dots = Array.from(dotsWrap.children);
+
+    function step() {
+      const card = cards[0];
+      const style = getComputedStyle(track);
+      const gap = parseFloat(style.columnGap || style.gap || 24);
+      return card.getBoundingClientRect().width + gap;
+    }
+    prevBtn.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+    nextBtn.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+
+    let ticking = false;
+    track.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const center = track.scrollLeft + track.clientWidth / 2;
+        let closest = 0, min = Infinity;
+        cards.forEach((c, i) => {
+          const mid = c.offsetLeft - track.offsetLeft + c.offsetWidth / 2;
+          const d = Math.abs(mid - center);
+          if (d < min) { min = d; closest = i; }
+        });
+        dots.forEach((d, i) => d.classList.toggle('active', i === closest));
+        prevBtn.style.opacity = track.scrollLeft <= 4 ? '.35' : '1';
+        nextBtn.style.opacity = track.scrollLeft >= track.scrollWidth - track.clientWidth - 4 ? '.35' : '1';
+        ticking = false;
+      });
+    });
+    track.dispatchEvent(new Event('scroll'));
   })();
 
   // Cursor
