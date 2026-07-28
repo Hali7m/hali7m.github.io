@@ -1,871 +1,542 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Touil Abdelhalim — Développeur Web</title>
-  <meta name="description" content="Développeur web freelance basé à Alger. Spécialisé en sites vitrine et e-commerce — PHP, MySQL, JavaScript."/>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --navy:   #0D1B2A;
-      --sand:   #F0E6D3;
-      --coral:  #FF4D3A;
-      --muted:  #8A7F74;
-      --light:  #FAF7F3;
-      --border: rgba(13,27,42,.12);
-    }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--light);
-      color: var(--navy);
-      overflow-x: hidden;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Touil Abdelhalim — Développeur Web</title>
+<meta name="description" content="Développeur web freelance basé à Alger. Sites, boutiques en ligne et outils de gestion pour des entreprises algériennes."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  :root{
+    --bg:#050505;
+    --surface:#111113;
+    --surface-2:#19191C;
+    --text:#F5F5F6;
+    --text-dim:#9B9CA3;
+    --text-faint:#616268;
+    --blue:#3B7BFF;
+    --green:#2ECB70;
+    --red:#FF4433;
+    --line:rgba(255,255,255,.10);
+    --line-soft:rgba(255,255,255,.06);
+  }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family:'Plus Jakarta Sans',sans-serif;
+    background:var(--bg); color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    font-size:16px; line-height:1.5; overflow-x:hidden;
+  }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+  ::selection{ background:var(--blue); color:#fff; }
+  :focus-visible{ outline:2px solid var(--blue); outline-offset:3px; }
 
-    /* ─── CURSOR ─── */
-    .cursor { position:fixed; width:8px; height:8px; background:var(--coral); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform .15s; }
-    .cursor-ring { position:fixed; width:32px; height:32px; border:1.5px solid var(--coral); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); opacity:.4; transition:width .2s,height .2s,opacity .2s; }
-    .cursor.big { transform:translate(-50%,-50%) scale(2.5); }
-    .cursor-ring.big { width:50px; height:50px; opacity:.18; }
-    @media(hover:none){ .cursor,.cursor-ring{ display:none; } body{ cursor:default; } }
+  .wrap{ max-width:1180px; margin:0 auto; padding-left:1.6rem; padding-right:1.6rem; }
+  @media(min-width:900px){ .wrap{ padding-left:3rem; padding-right:3rem; } }
 
-    /* ─── NAV ─── */
-    nav {
-      position: fixed; top:0; left:0; right:0; z-index:200;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1.25rem 3rem;
-      background: rgba(250,247,243,.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      gap: 1.5rem;
-    }
-    .nav-logo {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700; font-size: 1rem; letter-spacing: -.02em;
-      text-decoration: none; color: var(--navy);
-      display: flex; align-items: center; gap: .5rem;
-    }
-    .nav-logo-dot { width:7px; height:7px; border-radius:50%; background:var(--coral); animation:pulse 2s infinite; }
-    .nav-right { display:flex; align-items:center; gap:2rem; }
-    .nav-links { display:flex; gap:2rem; list-style:none; }
-    .nav-links a { font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; text-decoration:none; color:var(--muted); transition:color .2s; }
-    .nav-links a:hover { color:var(--navy); }
-    .lang-switch { display:flex; align-items:center; gap:.4rem; flex-shrink:0; }
-    .lang-btn {
-      background:none; border:none; cursor:pointer;
-      font-family:'Space Grotesk',sans-serif; font-weight:600;
-      font-size:.72rem; letter-spacing:.08em; color:var(--muted);
-      padding:.25rem .3rem; transition:color .2s;
-    }
-    .lang-btn:hover { color:var(--navy); }
-    .lang-btn.active { color:var(--coral); }
-    .lang-sep { color:var(--border); font-size:.7rem; }
-    @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,77,58,.4)} 60%{box-shadow:0 0 0 6px rgba(255,77,58,0)} }
+  .pill-tag{
+    display:inline-flex; align-items:center; gap:.5rem; padding:.4rem 1rem;
+    border:1px solid var(--line); border-radius:100px; font-size:.78rem; color:var(--text-dim);
+    margin-bottom:1.4rem;
+  }
+  .pill-tag .dot{ width:5px; height:5px; border-radius:50%; background:var(--text-dim); }
 
-    /* ─── HERO ─── */
-    .hero {
-      min-height: 100vh;
-      padding-top: 5rem;
-      display: grid;
-      grid-template-columns: 1fr 420px;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: -1px; left:0; right:0; height:80px;
-      background: var(--light);
-      clip-path: ellipse(55% 100% at 50% 100%);
-      pointer-events:none;
-    }
-    .hero-bg {
-      position: absolute; inset:0; z-index:0;
-      background: var(--navy);
-      clip-path: polygon(0 0, 66% 0, 56% 100%, 0 100%);
-    }
-    .hero-left {
-      position: relative; z-index:1;
-      display: flex; flex-direction:column; justify-content:center;
-      padding: 6rem 4rem 8rem;
-      color: var(--sand);
-    }
-    .hero-eyebrow {
-      font-size: .7rem; letter-spacing: .18em; text-transform: uppercase;
-      color: var(--coral); margin-bottom: 2rem;
-      display:flex; align-items:center; gap:.6rem;
-      opacity:0; animation: fadeUp .7s .1s ease forwards;
-    }
-    .hero-name {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(3.5rem, 6vw, 5.8rem);
-      font-weight: 700; line-height: .92; letter-spacing: -.04em;
-      margin-bottom: 1.8rem;
-      opacity:0; animation: fadeUp .7s .2s ease forwards;
-    }
-    .hero-name em { font-style:normal; color:var(--coral); }
-    .hero-desc {
-      font-size: .95rem; line-height: 1.8; color: rgba(240,230,211,.65);
-      max-width: 400px; margin-bottom: 3rem;
-      opacity:0; animation: fadeUp .7s .3s ease forwards;
-    }
-    .hero-cta {
-      display:flex; gap:1rem; flex-wrap:wrap;
-      opacity:0; animation: fadeUp .7s .4s ease forwards;
-    }
-    .btn {
-      display:inline-block; padding:.85rem 2rem;
-      font-family:'Space Grotesk',sans-serif; font-weight:600;
-      font-size:.78rem; letter-spacing:.06em; text-transform:uppercase;
-      text-decoration:none; border-radius:2px; transition:all .22s; cursor:none;
-    }
-    .btn-primary { background:var(--coral); color:#fff; border:2px solid var(--coral); }
-    .btn-primary:hover { background:transparent; color:var(--coral); }
-    .btn-outline { background:transparent; color:var(--sand); border:2px solid rgba(240,230,211,.35); }
-    .btn-outline:hover { border-color:var(--sand); }
+  .reveal{ opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.visible{ opacity:1; transform:translateY(0); }
+  @media(prefers-reduced-motion:reduce){ .reveal{ transition:none; opacity:1; transform:none; } }
 
-    /* Rotating badge */
-    .hero-right {
-      position:relative; z-index:1;
-      display:flex; align-items:center; justify-content:center;
-    }
-    .badge-wrap {
-      position:relative; width:260px; height:260px;
-      opacity:0; animation:fadeUp .7s .5s ease forwards;
-    }
-    .badge-ring {
-      position:absolute; inset:0;
-      border:1px dashed rgba(240,230,211,.2); border-radius:50%;
-      animation: spin 18s linear infinite;
-    }
-    .badge-text {
-      position:absolute; inset:0;
-      animation: spin 18s linear infinite;
-    }
-    .badge-text textPath { fill:var(--sand); font-size:11px; font-family:'Space Grotesk',sans-serif; letter-spacing:.25em; }
-    .badge-center {
-      position:absolute; inset:30px;
-      background:var(--coral); border-radius:50%;
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
-      gap:.25rem;
-    }
-    .badge-center-num {
-      font-family:'Space Grotesk',sans-serif; font-weight:700;
-      font-size:2.6rem; line-height:1; color:#fff;
-    }
-    .badge-center-label {
-      font-size:.62rem; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.7);
-      text-align:center; padding:0 .5rem;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
+  /* ─── NAV ─── */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:200;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:1.3rem 1.6rem;
+    background:rgba(5,5,5,.75); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav-brand{ display:flex; align-items:center; gap:.7rem; text-decoration:none; }
+  .nav-mark{
+    width:34px; height:34px; border-radius:10px; border:1.5px solid var(--text);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:.85rem;
+  }
+  .nav-name{ font-weight:600; font-size:.92rem; color:var(--text); }
+  .nav-links{ display:none; list-style:none; gap:2.2rem; }
+  .nav-links a{ text-decoration:none; color:var(--text-dim); font-size:.88rem; font-weight:500; transition:color .2s; }
+  .nav-links a:hover{ color:var(--text); }
+  .nav-cta{
+    display:none; background:var(--blue); color:#fff; text-decoration:none;
+    padding:.65rem 1.3rem; border-radius:100px; font-size:.82rem; font-weight:600;
+  }
+  @media(min-width:900px){
+    nav{ padding:1.5rem 3rem; }
+    .nav-links{ display:flex; }
+    .nav-cta{ display:inline-block; }
+  }
 
-    /* ─── MARQUEE ─── */
-    .marquee-wrap { background:var(--coral); overflow:hidden; padding:.85rem 0; }
-    .marquee-track { display:flex; white-space:nowrap; animation:marquee 24s linear infinite; }
-    .marquee-item { font-family:'Space Grotesk',sans-serif; font-size:.7rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:#fff; padding:0 2.5rem; flex-shrink:0; opacity:.85; }
-    .marquee-item .dot { margin-right:.5rem; opacity:.5; }
-    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  /* ─── HERO ─── */
+  .hero{ padding:8.5rem 1.6rem 4rem; position:relative; overflow:hidden; }
+  .hero-bg{ position:absolute; inset:-15% -10%; z-index:0; pointer-events:none; filter:blur(70px); }
+  .hero-bg span{ position:absolute; border-radius:50%; opacity:.3; }
+  .hero-bg .b1{ width:380px; height:380px; background:var(--blue); top:-60px; left:-80px; animation:float1 19s ease-in-out infinite; }
+  .hero-bg .b2{ width:320px; height:320px; background:var(--green); bottom:-90px; right:-60px; animation:float2 23s ease-in-out infinite; }
+  .hero-bg .b3{ width:240px; height:240px; background:#7C5CFF; top:35%; right:8%; animation:float1 27s ease-in-out infinite reverse; }
+  @keyframes float1{ 0%,100%{ transform:translate(0,0) scale(1); } 50%{ transform:translate(50px,60px) scale(1.18); } }
+  @keyframes float2{ 0%,100%{ transform:translate(0,0) scale(1); } 50%{ transform:translate(-55px,-45px) scale(1.12); } }
+  @media(prefers-reduced-motion:reduce){ .hero-bg span{ animation:none; } }
+  .hero-content{ position:relative; z-index:1; }
+  .hero::after{ content:''; position:absolute; left:0; right:0; bottom:0; height:120px; background:linear-gradient(to top, var(--bg), transparent); pointer-events:none; z-index:1; }
+  .hero-h1{
+    font-weight:800; font-size:clamp(2.4rem,9vw,4.6rem); line-height:1.04; letter-spacing:-.02em;
+    margin-bottom:.2rem;
+  }
+  .hero-role{ display:flex; align-items:baseline; gap:.3rem; margin-bottom:1.6rem; }
+  .hero-role-text{ font-weight:800; font-size:clamp(2.4rem,9vw,4.6rem); line-height:1.04; letter-spacing:-.02em; color:var(--blue); }
+  .cursor{ display:inline-block; width:3px; height:.8em; background:var(--blue); animation:blink 1s step-end infinite; }
+  @keyframes blink{ 50%{ opacity:0; } }
+  @media(prefers-reduced-motion:reduce){ .cursor{ animation:none; } }
 
-    /* ─── SECTIONS SHARED ─── */
-    .section { padding: 7rem 3rem; }
-    .section-eyebrow {
-      display:flex; align-items:center; gap:1rem; margin-bottom:1rem;
-    }
-    .section-eyebrow-line { width:32px; height:2px; background:var(--coral); }
-    .section-eyebrow-label { font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:var(--coral); }
-    .section-title {
-      font-family:'Space Grotesk',sans-serif;
-      font-size:clamp(2rem,4vw,3.2rem); font-weight:700; letter-spacing:-.03em;
-      margin-bottom:3.5rem;
-    }
+  .avail-line{ display:flex; align-items:center; gap:.6rem; font-size:.92rem; color:var(--text-dim); margin-bottom:1.8rem; flex-wrap:wrap; }
+  .avail-dot{ width:7px; height:7px; border-radius:50%; background:var(--red); flex-shrink:0; }
+  .avail-line strong{ color:var(--text); font-weight:700; }
+  .avail-line a{ text-decoration:underline; text-decoration-color:var(--text-faint); color:var(--text-dim); }
 
-    /* ─── ABOUT ─── */
-    #about { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .about-grid { display:grid; grid-template-columns:1.2fr 1fr; gap:5rem; align-items:start; }
-    .about-text p { font-size:.93rem; line-height:1.85; color:var(--muted); margin-bottom:1.2rem; }
-    .about-text p:last-child { margin-bottom:0; }
-    .about-text strong { color:var(--navy); font-weight:600; }
-    .about-availability {
-      display:inline-flex; align-items:center; gap:.6rem; margin-top:2rem;
-      padding:.6rem 1.2rem; border:1px solid var(--border); border-radius:100px;
-      font-size:.72rem; letter-spacing:.06em; color:var(--navy);
-    }
-    .avail-dot { width:7px;height:7px;border-radius:50%;background:#22c55e;animation:pulse-g 2s infinite; }
-    @keyframes pulse-g { 0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}60%{box-shadow:0 0 0 6px rgba(34,197,94,0)} }
+  .hero-desc{ font-size:1.05rem; line-height:1.7; color:var(--text-dim); max-width:520px; margin-bottom:2.2rem; }
 
-    /* Skills bento */
-    .skills-bento { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
-    .skill-card {
-      padding:1.2rem 1.4rem; border:1px solid var(--border); border-radius:4px;
-      display:flex; flex-direction:column; gap:.3rem;
-      transition:background .2s, border-color .2s, transform .2s;
-    }
-    .skill-card:hover { background:var(--navy); border-color:var(--navy); transform:translateY(-2px); }
-    .skill-card:hover .skill-name { color:#fff; }
-    .skill-card:hover .skill-cat { color:var(--coral); }
-    .skill-name { font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:.85rem; color:var(--navy); transition:color .2s; }
-    .skill-cat { font-size:.6rem; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); transition:color .2s; }
+  .hero-cta{ display:flex; gap:.9rem; flex-wrap:wrap; margin-bottom:3.4rem; }
+  .btn{
+    display:inline-flex; align-items:center; gap:.5rem; padding:.95rem 1.7rem;
+    font-size:.9rem; font-weight:700; text-decoration:none; border-radius:100px; border:none;
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .btn:hover{ transform:translateY(-3px); }
+  .btn:active{ transform:scale(.96) translateY(0); }
+  .btn-white{ background:#fff; color:#000; }
+  .btn-white:hover{ box-shadow:0 14px 34px -8px rgba(255,255,255,.35); }
+  .btn-blue{ background:var(--blue); color:#fff; }
+  .btn-blue:hover{ box-shadow:0 14px 34px -8px rgba(59,123,255,.55); }
+  .btn-green{ background:var(--green); color:#04160C; }
+  .btn-green:hover{ box-shadow:0 14px 34px -8px rgba(46,203,112,.5); }
 
-    /* ─── PROJECTS ─── */
-    #projects { background:var(--navy); color:var(--sand); border-bottom:none; }
-    #projects .section-title { color:var(--sand); }
-    #projects .section-eyebrow-label { color:var(--coral); }
-    .projects-carousel { position:relative; }
-    .carousel-track {
-      display:flex; gap:1.5rem; overflow-x:auto; scroll-snap-type:x mandatory;
-      scroll-behavior:smooth; -webkit-overflow-scrolling:touch;
-      padding:.25rem .25rem 1.5rem;
-      scrollbar-width:none;
-    }
-    .carousel-track::-webkit-scrollbar { display:none; }
-    .carousel-arrow {
-      position:absolute; top:38%; transform:translateY(-50%);
-      width:46px; height:46px; border-radius:50%;
-      background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.15);
-      color:var(--sand); font-size:1.3rem; line-height:1; cursor:pointer;
-      display:flex; align-items:center; justify-content:center;
-      z-index:5; transition:all .2s; backdrop-filter:blur(4px);
-    }
-    .carousel-arrow:hover { background:var(--coral); border-color:var(--coral); }
-    .carousel-arrow.prev { left:-8px; }
-    .carousel-arrow.next { right:-8px; }
-    .carousel-dots { display:flex; gap:.5rem; justify-content:center; margin-top:1.5rem; }
-    .carousel-dot {
-      width:8px; height:8px; border-radius:50%; border:none; padding:0;
-      background:rgba(255,255,255,.18); cursor:pointer; transition:all .25s;
-    }
-    .carousel-dot.active { background:var(--coral); width:26px; border-radius:5px; }
-    .project-card {
-      background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08);
-      border-radius:6px; overflow:hidden;
-      display:flex; flex-direction:column;
-      transition:border-color .25s, transform .25s;
-      flex:0 0 auto; width:360px; scroll-snap-align:start;
-    }
-    .project-card:hover { border-color:var(--coral); transform:translateY(-4px); }
-    .project-img {
-      width:100%; height:200px; object-fit:cover; display:block;
-      filter:saturate(.6); transition:filter .3s;
-    }
-    .project-card:hover .project-img { filter:saturate(1); }
-    .project-img-placeholder {
-      width:100%; height:200px; display:flex; align-items:center; justify-content:center;
-      background: linear-gradient(135deg, #16283b 0%, #24405c 100%);
-      position:relative; overflow:hidden;
-    }
-    .project-img-placeholder::before {
-      content:''; position:absolute; inset:0;
-      background: repeating-linear-gradient(45deg, rgba(255,77,58,.06) 0 2px, transparent 2px 14px);
-    }
-    .project-img-placeholder span {
-      font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:3rem;
-      color:var(--coral); opacity:.9; letter-spacing:-.02em; position:relative;
-    }
-    .project-body { padding:2rem; display:flex; flex-direction:column; gap:.8rem; flex:1; }
-    .project-meta { display:flex; align-items:center; gap:.75rem; }
-    .project-num { font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; color:var(--coral); }
-    .project-type { font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; padding:.2rem .6rem; border:1px solid rgba(255,255,255,.12); color:rgba(240,230,211,.5); border-radius:2px; }
-    .project-title { font-family:'Space Grotesk',sans-serif; font-size:1.3rem; font-weight:700; letter-spacing:-.02em; color:#fff; line-height:1.15; }
-    .project-desc { font-size:.8rem; line-height:1.75; color:rgba(240,230,211,.55); }
-    .project-footer { display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:1rem; border-top:1px solid rgba(255,255,255,.07); }
-    .project-tags { display:flex; gap:.35rem; flex-wrap:wrap; }
-    .tag { font-size:.58rem; letter-spacing:.08em; text-transform:uppercase; padding:.2rem .55rem; border:1px solid rgba(255,255,255,.1); color:rgba(240,230,211,.4); border-radius:2px; }
-    .project-link { display:flex; align-items:center; justify-content:center; width:34px; height:34px; border:1px solid rgba(255,255,255,.12); border-radius:50%; color:var(--sand); font-size:1rem; text-decoration:none; transition:all .2s; flex-shrink:0; }
-    .project-link:hover { background:var(--coral); border-color:var(--coral); color:#fff; }
-    .project-note { font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:rgba(240,230,211,.35); white-space:nowrap; }
+  .client-strip{ border-top:1px solid var(--line-soft); padding-top:1.6rem; }
+  .client-strip-label{ font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--text-faint); margin-bottom:1.1rem; }
+  .client-row{ display:flex; flex-wrap:wrap; gap:1.6rem 2.2rem; }
+  .client-row span{ font-weight:700; font-size:.98rem; color:var(--text-faint); letter-spacing:.01em; }
 
-    /* ─── EXPERIENCE ─── */
-    #experience { border-bottom: 1px solid var(--border); }
-    .exp-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
-    .exp-card {
-      padding:2rem 2.2rem; border:1px solid var(--border); border-radius:4px;
-      display:flex; flex-direction:column; gap:.5rem;
-      transition:border-color .2s, background .2s;
-    }
-    .exp-card:hover { border-color:var(--coral); background:rgba(255,77,58,.03); }
-    .exp-year { font-size:.65rem; letter-spacing:.18em; text-transform:uppercase; color:var(--coral); }
-    .exp-degree { font-family:'Space Grotesk',sans-serif; font-size:1rem; font-weight:700; letter-spacing:-.01em; }
-    .exp-school { font-size:.78rem; color:var(--muted); }
-    .exp-badge { display:inline-block; margin-top:.5rem; align-self:flex-start; padding:.2rem .7rem; background:var(--coral); color:#fff; font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; border-radius:2px; }
+  /* ─── SECTION SHELL ─── */
+  .section{ padding:5rem 0; position:relative; }
+  .section::before{ content:''; position:absolute; top:0; left:0; right:0; height:110px; background:linear-gradient(to bottom, var(--bg), transparent); pointer-events:none; z-index:1; }
+  .section::after{ content:''; position:absolute; bottom:0; left:0; right:0; height:110px; background:linear-gradient(to top, var(--bg), transparent); pointer-events:none; z-index:1; }
+  .section > .wrap{ position:relative; z-index:2; }
+  .section-eyebrow-wrap{ text-align:center; margin-bottom:1rem; }
+  .section-title{
+    font-weight:800; font-size:clamp(2rem,6vw,3.2rem); letter-spacing:-.02em; text-align:center; margin-bottom:1rem;
+  }
+  .section-sub{ font-size:1rem; color:var(--text-dim); text-align:center; max-width:460px; margin:0 auto 2rem; line-height:1.7; }
+  .section-cta{ text-align:center; margin-bottom:3.5rem; }
 
-    /* ─── CONTACT ─── */
-    #contact {
-      background:var(--navy);
-      display:grid; grid-template-columns:1fr 1fr;
-      min-height:60vh;
-    }
-    .contact-left {
-      padding:7rem 3.5rem; display:flex; flex-direction:column; justify-content:center;
-      border-right:1px solid rgba(255,255,255,.07);
-    }
-    .contact-heading {
-      font-family:'Space Grotesk',sans-serif;
-      font-size:clamp(2.5rem,5vw,4rem); font-weight:700; letter-spacing:-.04em;
-      line-height:.95; color:var(--sand); margin-bottom:1.5rem;
-    }
-    .contact-heading em { font-style:normal; color:var(--coral); }
-    .contact-sub { font-size:.85rem; line-height:1.8; color:rgba(240,230,211,.55); max-width:320px; margin-bottom:2.5rem; }
-    .contact-right {
-      padding:7rem 3.5rem; display:flex; flex-direction:column; justify-content:center;
-      gap:2px;
-    }
-    .contact-link {
-      display:flex; justify-content:space-between; align-items:center;
-      padding:1.4rem 1.6rem;
-      text-decoration:none; color:var(--sand);
-      font-family:'Space Grotesk',sans-serif; font-size:.8rem; font-weight:500;
-      letter-spacing:.05em; text-transform:uppercase;
-      border:1px solid rgba(255,255,255,.07); border-radius:3px; margin-bottom:.5rem;
-      transition:all .2s;
-    }
-    .contact-link:hover { background:var(--coral); border-color:var(--coral); }
-    .contact-link span { opacity:.4; transition:opacity .2s; }
-    .contact-link:hover span { opacity:1; }
+  /* ─── SELECTED WORK CARDS ─── */
+  .work-list{ display:flex; flex-direction:column; gap:1.6rem; }
+  .work-card{
+    position:relative; border-radius:26px; overflow:hidden; background:var(--surface);
+    border:1px solid var(--line); min-height:340px; display:flex; align-items:flex-end;
+    transition:box-shadow .4s ease, transform .4s ease;
+  }
+  .work-card:nth-child(odd){ box-shadow:0 30px 80px -30px rgba(59,123,255,.4); }
+  .work-card:nth-child(even){ box-shadow:0 30px 80px -30px rgba(46,203,112,.28); }
+  .work-card:hover{ transform:translateY(-4px); box-shadow:0 36px 90px -26px rgba(59,123,255,.5); }
+  .work-frame-holder{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:2.2rem 1.4rem 4.5rem; background:radial-gradient(circle at 30% 20%, #1c2230, #08090b 70%); }
+  .browser-frame{
+    width:88%; max-width:340px; border-radius:12px; overflow:hidden; background:#0c0d0f;
+    border:1px solid rgba(255,255,255,.14); box-shadow:0 30px 60px rgba(0,0,0,.55);
+    transform:rotate(-3deg); transition:transform .4s ease;
+  }
+  .work-card:nth-child(even) .browser-frame{ transform:rotate(3deg); }
+  .work-card:hover .browser-frame{ transform:rotate(0deg) scale(1.02); }
+  .browser-bar{ display:flex; gap:.35rem; padding:.55rem .7rem; background:#151619; }
+  .browser-bar span{ width:7px; height:7px; border-radius:50%; background:#3a3b40; }
+.browser-frame img {
+  width: 100%;
+  height: auto;           /* Replaces aspect-ratio: 16 / 10 */
+  object-fit: contain;     /* Replaces object-fit: cover */
+  display: block;
+}  .work-overlay{
+    position:relative; z-index:2; width:100%; padding:1.3rem 1.5rem;
+    background:linear-gradient(0deg, rgba(0,0,0,.92) 30%, rgba(0,0,0,0));
+    display:flex; justify-content:space-between; align-items:flex-end; gap:1rem;
+  }
+  .work-meta-title{ font-weight:700; font-size:1.15rem; margin-bottom:.3rem; }
+  .work-meta-tag{ font-size:.78rem; color:var(--text-dim); }
+  .work-arrow{
+    flex-shrink:0; width:38px; height:38px; border-radius:50%; border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; text-decoration:none; color:var(--text);
+    transition:background .2s;
+  }
+  .work-arrow:hover{ background:var(--blue); border-color:var(--blue); }
 
-    /* ─── FOOTER ─── */
-    footer {
-      background:var(--navy); padding:1.8rem 3rem;
-      border-top:1px solid rgba(255,255,255,.07);
-      display:flex; justify-content:space-between; align-items:center;
-      font-size:.68rem; letter-spacing:.1em; text-transform:uppercase;
-      color:rgba(240,230,211,.3);
-    }
+  /* ─── RECENT PROJECTS GRID ─── */
+  .recent-grid{ display:grid; grid-template-columns:1fr; gap:1.8rem; }
+  @media(min-width:760px){ .recent-grid{ grid-template-columns:1fr 1fr; } }
+  @media(min-width:1080px){ .recent-grid{ grid-template-columns:1fr 1fr 1fr; } }
+  .recent-card{ text-decoration:none; color:var(--text); }
+  .recent-media{
+    border-radius:16px; overflow:hidden; background:var(--surface); border:1px solid var(--line);
+    aspect-ratio:7/5; margin-bottom:.9rem; display:flex; align-items:center; justify-content:center;
+    transition:box-shadow .35s ease, transform .35s ease;
+  }
+  .recent-media img{ width:100%; height:100%; object-fit:cover; object-position:top center; }
+  .recent-card:hover .recent-media{ box-shadow:0 25px 60px -22px rgba(59,123,255,.45); transform:translateY(-3px); }
+  .recent-media.placeholder span{ font-weight:800; font-size:2.4rem; color:var(--text-faint); }
+  .recent-title{ font-weight:700; font-size:1rem; margin-bottom:.2rem; }
+  .recent-sub{ font-size:.85rem; color:var(--text-faint); }
 
-    /* ─── ANIMATIONS ─── */
-    @keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
-    .reveal { opacity:0; transform:translateY(24px); transition:opacity .65s ease, transform .65s ease; }
-    .reveal.visible { opacity:1; transform:translateY(0); }
-    @media (prefers-reduced-motion: reduce) {
-      .reveal { transition:none; opacity:1; transform:none; }
-      .hero-eyebrow, .hero-name, .hero-desc, .hero-cta, .badge-wrap { animation:none; opacity:1; }
-      .badge-ring, .badge-text, .marquee-track, .nav-logo-dot, .avail-dot { animation:none; }
-    }
+  /* ─── ABOUT ─── */
+  #about{ border-top:1px solid var(--line-soft); }
+  .about-top{ display:flex; flex-direction:column; gap:2rem; margin-bottom:2.6rem; }
+  .about-title{ font-weight:800; font-size:clamp(2rem,6vw,3rem); letter-spacing:-.02em; }
+  .about-photo{
+    align-self:center; width:220px; height:220px; border-radius:20px; overflow:hidden;
+    background:linear-gradient(160deg,#2a2b2f,#0c0c0d); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .about-photo span{ font-weight:800; font-size:3.4rem; color:var(--text-faint); }
+  @media(min-width:820px){
+    .about-top{ flex-direction:row; align-items:center; justify-content:space-between; }
+    .about-photo{ align-self:auto; }
+  }
+  .about-text p{ font-size:1.02rem; line-height:1.8; color:var(--text-dim); max-width:680px; margin-bottom:1.3rem; }
+  .about-text strong{ color:var(--text); font-weight:700; }
 
-    /* ─── RESPONSIVE ─── */
-    @media(max-width:900px) {
-      nav { padding:1.1rem 1.5rem; }
-      .nav-links { display:none; }
-      .hero { grid-template-columns:1fr; min-height:auto; padding-top:4.5rem; }
-      .hero-bg { clip-path:none; }
-      .hero-left { padding:4rem 1.5rem 3rem; }
-      .hero-right { padding:3rem 1.5rem; }
-      .badge-wrap { width:200px; height:200px; }
-      .section { padding:4.5rem 1.5rem; }
-      .about-grid { grid-template-columns:1fr; gap:2.5rem; }
-      .skills-bento { grid-template-columns:1fr 1fr; }
-      .projects-grid { grid-template-columns:1fr; }
-      .project-card { width:82vw; }
-      .carousel-arrow { width:38px; height:38px; font-size:1.1rem; }
-      .carousel-arrow.prev { left:2px; }
-      .carousel-arrow.next { right:2px; }
-      .exp-grid { grid-template-columns:1fr; }
-      #contact { grid-template-columns:1fr; min-height:auto; }
-      .contact-left { padding:4rem 1.5rem 2rem; border-right:none; border-bottom:1px solid rgba(255,255,255,.07); }
-      .contact-right { padding:2rem 1.5rem 4rem; }
-      footer { flex-direction:column; gap:.5rem; text-align:center; padding:1.5rem; }
-      .hero::after { display:none; }
-    }
-  </style>
+  /* ─── HOW I WORK ─── */
+  #process{ border-top:1px solid var(--line-soft); }
+  .steps-grid{ display:grid; grid-template-columns:1fr; gap:1.2rem; }
+  @media(min-width:760px){ .steps-grid{ grid-template-columns:1fr 1fr; } }
+  @media(min-width:1080px){ .steps-grid{ grid-template-columns:repeat(4,1fr); } }
+  .step-card{ background:var(--surface); border:1px solid var(--line); border-radius:20px; padding:1.6rem; transition:box-shadow .3s ease, transform .3s ease; }
+  .step-card:hover{ box-shadow:0 26px 60px -24px rgba(59,123,255,.4); transform:translateY(-4px); }
+  .step-top{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem; }
+  .step-label{ font-size:.76rem; color:var(--text-faint); margin-bottom:.3rem; }
+  .step-title{ font-weight:700; font-size:1.08rem; }
+  .step-icon{ width:34px; height:34px; border-radius:9px; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .step-desc{ font-size:.9rem; line-height:1.7; color:var(--text-dim); }
+
+  /* ─── CLOSING CTA ─── */
+  #closing{
+    position:relative; overflow:hidden;
+    padding:6.5rem 0;
+  }
+  .closing-bg{
+    position:absolute; inset:0; z-index:0; opacity:.3; display:grid; grid-template-columns:repeat(3,1fr); gap:.9rem;
+    padding:0 .9rem; pointer-events:none;
+    -webkit-mask-image:linear-gradient(to bottom, transparent, black 22%, black 78%, transparent);
+    mask-image:linear-gradient(to bottom, transparent, black 22%, black 78%, transparent);
+  }
+  .marquee-col{ display:flex; flex-direction:column; gap:.9rem; will-change:transform; }
+  .marquee-col img{ width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:14px; filter:saturate(.85); }
+  .marquee-col.up{ animation:scrollUp 32s linear infinite; }
+  .marquee-col.down{ animation:scrollDown 28s linear infinite; }
+  @keyframes scrollUp{ from{ transform:translateY(0); } to{ transform:translateY(-50%); } }
+  @keyframes scrollDown{ from{ transform:translateY(-50%); } to{ transform:translateY(0); } }
+  @media(prefers-reduced-motion:reduce){ .marquee-col{ animation:none; } }
+  #closing::before{ content:''; position:absolute; top:0; left:0; right:0; height:130px; background:linear-gradient(to bottom, var(--bg), transparent); z-index:1; pointer-events:none; }
+  #closing::after{ content:''; position:absolute; bottom:0; left:0; right:0; height:130px; background:linear-gradient(to top, var(--bg), transparent); z-index:1; pointer-events:none; }
+  .closing-inner{ position:relative; z-index:2; }
+  .closing-title{ font-weight:800; font-size:clamp(2.1rem,7vw,3.4rem); letter-spacing:-.02em; margin-bottom:1.1rem; max-width:640px; }
+  .closing-sub{ font-size:1.02rem; color:var(--text-dim); max-width:480px; line-height:1.75; margin-bottom:2.2rem; }
+  .closing-ctas{ display:flex; flex-direction:column; gap:.9rem; align-items:flex-start; }
+
+  /* ─── FOOTER ─── */
+  footer{ border-top:1px solid var(--line-soft); padding:3.5rem 0 2rem; }
+  .footer-title{ font-weight:800; font-size:clamp(1.7rem,5vw,2.3rem); letter-spacing:-.02em; margin-bottom:2.4rem; }
+  .footer-grid{ display:grid; grid-template-columns:1fr 1fr; gap:2rem 1rem; }
+  @media(min-width:760px){ .footer-grid{ grid-template-columns:repeat(4,1fr); } }
+  .footer-col-label{ font-size:.76rem; color:var(--text-faint); margin-bottom:.9rem; text-transform:uppercase; letter-spacing:.08em; }
+  .footer-col a, .footer-col p{ display:block; font-size:.9rem; color:var(--text-dim); text-decoration:none; margin-bottom:.55rem; line-height:1.6; }
+  .footer-col a:hover{ color:var(--text); }
+  .footer-col strong{ color:var(--text); font-weight:700; }
+</style>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-
 <nav>
-  <a href="#" class="nav-logo">
-    <span class="nav-logo-dot"></span>
-    Touil Abdelhalim
+  <a href="#" class="nav-brand">
+    <span class="nav-mark">TA</span>
+    <span class="nav-name">touil abdelhalim</span>
   </a>
-  <div class="nav-right">
-    <ul class="nav-links">
-      <li><a href="#about" data-key="nav-about">À propos</a></li>
-      <li><a href="#projects" data-key="nav-projects">Projets</a></li>
-      <li><a href="#experience" data-key="nav-experience">Parcours</a></li>
-      <li><a href="#contact" data-key="nav-contact">Contact</a></li>
-    </ul>
-    <div class="lang-switch">
-      <button class="lang-btn active" data-lang="fr">FR</button>
-      <span class="lang-sep">/</span>
-      <button class="lang-btn" data-lang="en">EN</button>
-    </div>
-  </div>
+  <ul class="nav-links">
+    <li><a href="#work">Projets</a></li>
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#process">Méthode</a></li>
+  </ul>
+  <a href="#closing" class="nav-cta">Me contacter</a>
 </nav>
 
 <!-- ── HERO ── -->
-<section class="hero" id="home">
-  <div class="hero-bg"></div>
-  <div class="hero-left">
-    <p class="hero-eyebrow">
-      <span>✦</span> <span data-key="hero-eyebrow">Développeur Web Freelance · Alger</span>
+<section class="hero wrap" id="home">
+  <div class="hero-bg" aria-hidden="true"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
+  <div class="hero-content">
+    <h1 class="hero-h1">Salut, je suis Halim.</h1>
+    <div class="hero-role"><span class="hero-role-text" id="roleText">Développeur Web</span><span class="cursor"></span></div>
+
+    <p class="avail-line">
+      <span class="avail-dot"></span>
+      <strong>Disponible dès maintenant.</strong>
+      <a href="#closing">Écrivez-moi →</a>
     </p>
-    <h1 class="hero-name" data-key="hero-name">
-      Sites qui<br>
-      <em>convertissent.</em>
-    </h1>
-    <p class="hero-desc" data-key="hero-desc">
-      Je conçois et déploie des sites vitrine et e-commerce pour les entreprises algériennes —
-      du cahier des charges jusqu'à la mise en ligne. PHP, MySQL, JavaScript.
-    </p>
+
+    <p class="hero-desc">Je conçois et développe des sites vitrine, des boutiques en ligne et des outils de gestion pour des entreprises algériennes — de la base de données jusqu'à la mise en ligne.</p>
+
     <div class="hero-cta">
-      <a href="#projects" class="btn btn-primary" data-key="hero-cta-primary">Voir mes projets</a>
-      <a href="#contact" class="btn btn-outline" data-key="hero-cta-outline">Me contacter</a>
+      <a href="#work" class="btn btn-white">Voir le portfolio</a>
+      <a href="#closing" class="btn btn-blue">Me contacter</a>
     </div>
-  </div>
-  <div class="hero-right">
-    <div class="badge-wrap">
-      <div class="badge-ring"></div>
-      <svg class="badge-text" viewBox="0 0 260 260">
-        <defs>
-          <path id="circle" d="M130,130 m-100,0 a100,100 0 1,1 200,0 a100,100 0 1,1 -200,0"/>
-        </defs>
-        <text>
-          <textPath href="#circle" data-key="badge-ring-text">
-            DISPONIBLE · ALGER · FREELANCE · 2026 · DISPONIBLE · ALGER · FREELANCE · 2026 ·
-          </textPath>
-        </text>
-      </svg>
-      <div class="badge-center">
-        <span class="badge-center-num">8</span>
-        <span class="badge-center-label" data-key="badge-label">Projets livrés</span>
+
+    <div class="client-strip">
+      <div class="client-strip-label">Ils m'ont fait confiance</div>
+      <div class="client-row">
+        <span>Dr Semmari</span><span>Venti Quattro</span><span>Chabakat Com</span><span>Sarl Haddad</span><span>Bouira Couture</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── MARQUEE ── -->
-<div class="marquee-wrap">
-  <div class="marquee-track">
-    <span class="marquee-item"><span class="dot">◆</span>PHP & MySQL</span>
-    <span class="marquee-item"><span class="dot">◆</span>HTML / CSS / JS</span>
-    <span class="marquee-item"><span class="dot">◆</span>Bootstrap</span>
-    <span class="marquee-item"><span class="dot">◆</span>WordPress</span>
-    <span class="marquee-item"><span class="dot">◆</span>Figma</span>
-    <span class="marquee-item"><span class="dot">◆</span>Git / GitHub</span>
-    <span class="marquee-item"><span class="dot">◆</span><span data-key="marquee-vitrine">Sites Vitrine</span></span>
-    <span class="marquee-item"><span class="dot">◆</span>E-Commerce</span>
-    <span class="marquee-item"><span class="dot">◆</span><span data-key="marquee-database">Bases de Données</span></span>
-    <span class="marquee-item"><span class="dot">◆</span><span data-key="marquee-hosting">Hébergement Web</span></span>
-    <span class="marquee-item"><span class="dot">◆</span>PHP & MySQL</span>
-    <span class="marquee-item"><span class="dot">◆</span>HTML / CSS / JS</span>
-    <span class="marquee-item"><span class="dot">◆</span>Bootstrap</span>
-    <span class="marquee-item"><span class="dot">◆</span>WordPress</span>
-    <span class="marquee-item"><span class="dot">◆</span>Figma</span>
-    <span class="marquee-item"><span class="dot">◆</span>Git / GitHub</span>
-    <span class="marquee-item"><span class="dot">◆</span><span data-key="marquee-vitrine">Sites Vitrine</span></span>
-    <span class="marquee-item"><span class="dot">◆</span>E-Commerce</span>
-    <span class="marquee-item"><span class="dot">◆</span><span data-key="marquee-database">Bases de Données</span></span>
-    <span class="marquee-item"><span class="dot">◆</span><span data-key="marquee-hosting">Hébergement Web</span></span>
+<!-- ── SELECTED WORK ── -->
+<section class="section" id="work">
+  <div class="wrap">
+    <div class="section-eyebrow-wrap"><span class="pill-tag"><span class="dot"></span> Portfolio</span></div>
+    <h2 class="section-title">Travaux Sélectionnés</h2>
+    <p class="section-sub">Des projets réels pour des commerces et entreprises algériennes, du premier échange jusqu'à la mise en ligne.</p>
+    <div class="section-cta"><a href="#closing" class="btn btn-blue">Me contacter</a></div>
+
+    <div class="work-list">
+      <div class="work-card reveal">
+        <div class="work-frame-holder">
+          <div class="browser-frame">
+            <div class="browser-bar"><span></span><span></span><span></span></div>
+            <img src="https://image.thum.io/get/width/700/crop/900/noanimate/https://drsemmari.com/" alt="Dr Semmari Ahlem" loading="lazy" onerror="this.src='https://s.wordpress.com/mshots/v1/https%3A%2F%2Fdrsemmari.com%2F?w=700%26h=500'">
+          </div>
+        </div>
+        <div class="work-overlay">
+          <div><div class="work-meta-title">Dr Semmari Ahlem</div><div class="work-meta-tag">Vitrine · Santé</div></div>
+          <a href="https://drsemmari.com/" target="_blank" rel="noopener" class="work-arrow" aria-label="Voir le site">↗</a>
+        </div>
+      </div>
+
+      <div class="work-card reveal">
+        <div class="work-frame-holder">
+          <div class="browser-frame">
+            <div class="browser-bar"><span></span><span></span><span></span></div>
+            <img src="https://image.thum.io/get/width/900/crop/900/noanimate/https://ventiquattro-dz.com/" alt="Venti Quattro" loading="lazy" onerror="this.src='https://s.wordpress.com/mshots/v1/https%3A%2F%2Fventiquattro-dz.com%2F?w=700%26h=500'">
+          </div>
+        </div>
+        <div class="work-overlay">
+          <div><div class="work-meta-title">Venti Quattro</div><div class="work-meta-tag">E-Commerce · Mode</div></div>
+          <a href="https://ventiquattro-dz.com/" target="_blank" rel="noopener" class="work-arrow" aria-label="Voir le site">↗</a>
+        </div>
+      </div>
+
+      <div class="work-card reveal">
+        <div class="work-frame-holder">
+          <div class="browser-frame">
+            <div class="browser-bar"><span></span><span></span><span></span></div>
+            <img src="https://image.thum.io/get/width/700/crop/900/noanimate/https://chabakatcom.dz/index.php" alt="Chabakat Com" loading="lazy" onerror="this.src='https://s.wordpress.com/mshots/v1/https%3A%2F%2Fchabakatcom.dz%2Findex.php?w=700%26h=500'">
+          </div>
+        </div>
+        <div class="work-overlay">
+          <div><div class="work-meta-title">Chabakat Com</div><div class="work-meta-tag">Vitrine · Télécoms</div></div>
+          <a href="https://chabakatcom.dz/index.php" target="_blank" rel="noopener" class="work-arrow" aria-label="Voir le site">↗</a>
+        </div>
+      </div>
+
+      <div class="work-card reveal">
+        <div class="work-frame-holder">
+          <div class="browser-frame">
+            <div class="browser-bar"><span></span><span></span><span></span></div>
+            <img src="https://image.thum.io/get/width/700/crop/900/noanimate/https://www.sarlhaddad.com/" alt="Sarl Haddad Télécommunications" loading="lazy" onerror="this.src='https://s.wordpress.com/mshots/v1/https%3A%2F%2Fwww.sarlhaddad.com%2F?w=700%26h=500'">
+          </div>
+        </div>
+        <div class="work-overlay">
+          <div><div class="work-meta-title">Sarl Haddad Télécom</div><div class="work-meta-tag">Corporate · Télécoms</div></div>
+          <a href="https://www.sarlhaddad.com" target="_blank" rel="noopener" class="work-arrow" aria-label="Voir le site">↗</a>
+        </div>
+      </div>
+
+      <div class="work-card reveal">
+        <div class="work-frame-holder">
+          <div class="browser-frame">
+            <div class="browser-bar"><span></span><span></span><span></span></div>
+            <img src="https://image.thum.io/get/width/700/crop/900/noanimate/https://www.bouiracouture.com/" alt="Bouira Couture" loading="lazy" onerror="this.src='https://s.wordpress.com/mshots/v1/https%3A%2F%2Fwww.bouiracouture.com%2F?w=700%26h=500'">
+          </div>
+        </div>
+        <div class="work-overlay">
+          <div><div class="work-meta-title">Bouira Couture</div><div class="work-meta-tag">E-Commerce</div></div>
+          <a href="https://www.bouiracouture.com" target="_blank" rel="noopener" class="work-arrow" aria-label="Voir le site">↗</a>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+</section>
+
+<!-- ── RECENT PROJECTS ── -->
+<section class="section" id="more-work">
+  <div class="wrap">
+    <h2 class="section-title" style="text-align:left; margin-bottom:2rem;">Autres Projets</h2>
+    <div class="recent-grid">
+      <a href="https://hali7m.github.io/Makkoz/index2.html" target="_blank" rel="noopener" class="recent-card reveal">
+        <div class="recent-media"><img src="https://image.thum.io/get/width/700/crop/900/noanimate/https://hali7m.github.io/Makkoz/index2.html" alt="SARL Makkoz" loading="lazy" onerror="this.src='https://s.wordpress.com/mshots/v1/https%3A%2F%2Fhali7m.github.io%2FMakkoz%2Findex2.html?w=700%26h=500'"></div>
+        <div class="recent-title">SARL Makkoz</div>
+        <div class="recent-sub">Concept · Cosmétique</div>
+      </a>
+      <a href="https://hali7m.github.io/Elvi-transport/" target="_blank" rel="noopener" class="recent-card reveal">
+        <div class="recent-media"><img src="https://image.thum.io/get/width/700/crop/900/noanimate/https://hali7m.github.io/Elvi-transport/" alt="ELVI Transport INC" loading="lazy" onerror="this.src='https://s.wordpress.com/mshots/v1/https%3A%2F%2Fhali7m.github.io%2FElvi-transport%2F?w=700%26h=500'"></div>
+        <div class="recent-title">ELVI Transport INC</div>
+        <div class="recent-sub">Vitrine · Logistique</div>
+      </a>
+      <div class="recent-card reveal">
+        <div class="recent-media placeholder"><span>AT</span></div>
+        <div class="recent-title">Algérie Télécom</div>
+        <div class="recent-sub">Stage · Portail de candidatures (interne)</div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ── ABOUT ── -->
 <section class="section" id="about">
-  <div class="section-eyebrow"><div class="section-eyebrow-line"></div><span class="section-eyebrow-label" data-key="section-eyebrow-about">01 — À propos</span></div>
-  <h2 class="section-title" data-key="section-title-about">Développeur web<br>basé à Alger</h2>
-  <div class="about-grid">
+  <div class="wrap">
+    <div class="about-top reveal">
+      <h2 class="about-title">À propos</h2>
+      <div class="about-photo"><span>TA</span></div>
+    </div>
     <div class="about-text reveal">
-      <p data-key="about-p1">Je suis <strong>Touil Abdelhalim</strong>, développeur web freelance basé à Alger. Je conçois et déploie des sites vitrine et e-commerce adaptés aux besoins des entreprises algériennes — du cahier des charges jusqu'à la mise en ligne.</p>
-      <p data-key="about-p2">Titulaire d'un diplôme de <strong>Technicien Supérieur en Base de Données</strong> (Sup IBNROCHD, 2023), j'ai acquis une solide expérience en conception et gestion de bases de données, complétée par un stage chez <strong>Algérie Télécom</strong> où j'ai développé un portail web complet de gestion des candidatures.</p>
-      <p data-key="about-p3">Actuellement ouvert à des <strong>missions freelance</strong> et des <strong>opportunités full-time</strong>. Disponible à Alger et en télétravail.</p>
-      <div class="about-availability">
-        <span class="avail-dot"></span>
-        <span data-key="about-availability">Disponible pour missions</span>
-      </div>
-    </div>
-    <div class="skills-bento reveal">
-      <div class="skill-card"><span class="skill-name">PHP / MySQL</span><span class="skill-cat" data-key="skill-cat-backend">Backend</span></div>
-      <div class="skill-card"><span class="skill-name">HTML / CSS</span><span class="skill-cat" data-key="skill-cat-frontend">Frontend</span></div>
-      <div class="skill-card"><span class="skill-name">JavaScript</span><span class="skill-cat" data-key="skill-cat-frontend">Frontend</span></div>
-      <div class="skill-card"><span class="skill-name">Bootstrap</span><span class="skill-cat" data-key="skill-cat-ui">UI Framework</span></div>
-      <div class="skill-card"><span class="skill-name">WordPress</span><span class="skill-cat" data-key="skill-cat-cms">CMS</span></div>
-      <div class="skill-card"><span class="skill-name">Figma</span><span class="skill-cat" data-key="skill-cat-design">Design</span></div>
-      <div class="skill-card"><span class="skill-name">Git / GitHub</span><span class="skill-cat" data-key="skill-cat-tools">Outils</span></div>
-      <div class="skill-card"><span class="skill-name">Bases de données</span><span class="skill-cat" data-key="skill-cat-db">BDD</span></div>
+      <p>Je m'appelle <strong>Touil Abdelhalim</strong>. Je conçois et développe des sites et des applications web depuis Alger, principalement pour des commerces et des professions libérales algériennes — du premier échange jusqu'à la mise en ligne.</p>
+      <p>Diplômé <strong>Technicien Supérieur en Bases de Données</strong> (Sup IBNROCHD, 2023), j'ai fait mes armes chez <strong>Algérie Télécom</strong> en construisant un portail de gestion des candidatures. Cette base côté données change la façon dont j'aborde un projet web : je réfléchis d'abord à comment l'information circule, avant de penser à quoi ça ressemble.</p>
+      <p>Ouvert aux missions freelance et aux postes full-time, à Alger comme à distance.</p>
     </div>
   </div>
 </section>
 
-<!-- ── PROJECTS ── -->
-<section class="section" id="projects">
-  <div class="section-eyebrow"><div class="section-eyebrow-line"></div><span class="section-eyebrow-label" data-key="section-eyebrow-projects">02 — Projets</span></div>
-  <h2 class="section-title" data-key="section-title-projects">Travaux récents</h2>
-  <div class="projects-carousel">
-    <button class="carousel-arrow prev" id="carouselPrev" aria-label="Projet précédent">‹</button>
-    <div class="carousel-track" id="carouselTrack">
-
-    <div class="project-card reveal">
-      <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fdrsemmari.com%2F?w=900&amp;h=650" alt="Dr Semmari Ahlem" class="project-img" loading="lazy" onerror="this.style.display='none'">
-      <div class="project-body">
-        <div class="project-meta">
-          <span class="project-num">001</span>
-          <span class="project-type" data-key="project1-type">Vitrine · Santé</span>
+<!-- ── HOW I WORK ── -->
+<section class="section" id="process">
+  <div class="wrap">
+    <h2 class="section-title" style="text-align:left; margin-bottom:2rem;">Ma Méthode</h2>
+    <div class="steps-grid">
+      <div class="step-card reveal">
+        <div class="step-top">
+          <div><div class="step-label">Étape 1</div><div class="step-title">Échange</div></div>
+          <div class="step-icon">💬</div>
         </div>
-        <h3 class="project-title" data-key="project1-title">Dr Semmari Ahlem</h3>
-        <p class="project-desc" data-key="project1-desc">Portfolio et site vitrine pour un cabinet dentaire, avec une plateforme d'administration permettant de rédiger des articles de blog et d'ajouter des images à la galerie de réalisations.</p>
-        <div class="project-footer">
-          <div class="project-tags">
-            <span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">JS</span>
-          </div>
-          <a href="https://drsemmari.com/" target="_blank" rel="noopener" class="project-link">↗</a>
-        </div>
+        <p class="step-desc">On discute de votre projet, de vos objectifs et de vos contraintes avant d'écrire la moindre ligne de code.</p>
       </div>
-    </div>
-
-    <div class="project-card reveal">
-      <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fventiquattro-dz.com%2F?w=900&amp;h=600" alt="Venti Quattro" class="project-img" loading="lazy" onerror="this.style.display='none'">
-      <div class="project-body">
-        <div class="project-meta">
-          <span class="project-num">002</span>
-          <span class="project-type" data-key="project2-type">E-Commerce · Mode</span>
+      <div class="step-card reveal">
+        <div class="step-top">
+          <div><div class="step-label">Étape 2</div><div class="step-title">Structure</div></div>
+          <div class="step-icon">🗂️</div>
         </div>
-        <h3 class="project-title" data-key="project2-title">Venti Quattro</h3>
-        <p class="project-desc" data-key="project2-desc">Plateforme e-commerce complète pour une boutique de streetwear et sneakers à Alger. Gestion des commandes, gestion des stocks, suivi des entrées financières et tableau de bord analytique pour piloter l'activité de la boutique.</p>
-        <div class="project-footer">
-          <div class="project-tags">
-            <span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">JS</span>
-          </div>
-          <a href="https://ventiquattro-dz.com/" target="_blank" rel="noopener" class="project-link">↗</a>
-        </div>
+        <p class="step-desc">Je réfléchis d'abord aux données : ce qui doit être stocké, comment ça circule, avant de penser à l'interface.</p>
       </div>
-    </div>
-
-    <div class="project-card reveal">
-      <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fhali7m.github.io%2FMakkoz%2Findex2.html?w=900&amp;h=600" alt="SARL Makkoz" class="project-img" loading="lazy" onerror="this.style.display='none'">
-      <div class="project-body">
-        <div class="project-meta">
-          <span class="project-num">003</span>
-          <span class="project-type" data-key="project3-type">Concept · Cosmétique</span>
+      <div class="step-card reveal">
+        <div class="step-top">
+          <div><div class="step-label">Étape 3</div><div class="step-title">Développement</div></div>
+          <div class="step-icon">⌨️</div>
         </div>
-        <h3 class="project-title" data-key="project3-title">SARL Makkoz</h3>
-        <p class="project-desc" data-key="project3-desc">Site vitrine conçu pour un importateur-distributeur de cosmétiques, avec une identité visuelle inspirée du wrap de leur véhicule de marque. Projet réalisé pour le client, resté sans suite de sa part et conservé ici comme pièce de portfolio.</p>
-        <div class="project-footer">
-          <div class="project-tags">
-            <span class="tag">HTML/CSS</span><span class="tag">JavaScript</span>
-          </div>
-          <a href="https://hali7m.github.io/Makkoz/index2.html" target="_blank" rel="noopener" class="project-link">↗</a>
-        </div>
+        <p class="step-desc">Je construis le site ou l'outil par itérations, avec des retours réguliers de votre part en cours de route.</p>
       </div>
-    </div>
-
-    <div class="project-card reveal">
-      <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fchabakatcom.dz%2Findex.php?w=900&amp;h=600" alt="Chabakat Com" class="project-img" loading="lazy" onerror="this.style.display='none'">
-      <div class="project-body">
-        <div class="project-meta">
-          <span class="project-num">004</span>
-          <span class="project-type" data-key="project4-type">Vitrine · Télécoms</span>
+      <div class="step-card reveal">
+        <div class="step-top">
+          <div><div class="step-label">Étape 4</div><div class="step-title">Livraison</div></div>
+          <div class="step-icon">✅</div>
         </div>
-        <h3 class="project-title" data-key="project4-title">Chabakat Com</h3>
-        <p class="project-desc" data-key="project4-desc">Vitrine pour un intégrateur télécom algérien. Couvre GSM, FTTH, fibre optique et génie civil sur 69 wilayas. Partenaires : Mobilis, Ooredoo, Huawei, ZTE.</p>
-        <div class="project-footer">
-          <div class="project-tags">
-            <span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">Bootstrap</span>
-          </div>
-          <a href="https://chabakatcom.dz/index.php" target="_blank" rel="noopener" class="project-link">↗</a>
-        </div>
+        <p class="step-desc">Mise en ligne, vérifications finales, et transmission de tout ce qu'il faut pour gérer le site en autonomie.</p>
       </div>
-    </div>
-
-    <div class="project-card reveal">
-      <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fhali7m.github.io%2FElvi-transport%2F?w=900&amp;h=600" alt="ELVI Transport" class="project-img" loading="lazy" onerror="this.style.display='none'">
-      <div class="project-body">
-        <div class="project-meta">
-          <span class="project-num">005</span>
-          <span class="project-type" data-key="project5-type">Vitrine · Logistique</span>
-        </div>
-        <h3 class="project-title" data-key="project5-title">ELVI Transport INC</h3>
-        <p class="project-desc" data-key="project5-desc">Site vitrine professionnel moderne développé pour une entreprise de transport logistique.</p>
-        <div class="project-footer">
-          <div class="project-tags">
-            <span class="tag">HTML/CSS</span><span class="tag">JavaScript</span>
-          </div>
-          <a href="https://hali7m.github.io/Elvi-transport/" target="_blank" rel="noopener" class="project-link">↗</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="project-card reveal">
-      <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fwww.sarlhaddad.com%2F?w=900&amp;h=600" alt="Sarl Haddad" class="project-img" loading="lazy" onerror="this.style.display='none'">
-      <div class="project-body">
-        <div class="project-meta">
-          <span class="project-num">006</span>
-          <span class="project-type" data-key="project6-type">Corporate · Télécoms</span>
-        </div>
-        <h3 class="project-title" data-key="project6-title">Sarl Haddad Télécommunications</h3>
-        <p class="project-desc" data-key="project6-desc">Site corporate pour une entreprise spécialisée en installation de réseaux GSM, infrastructure télécoms et immobilier. Présence en ligne professionnelle reflétant 10+ ans d'expertise.</p>
-        <div class="project-footer">
-          <div class="project-tags">
-            <span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">Bootstrap</span>
-          </div>
-          <a href="https://www.sarlhaddad.com" target="_blank" rel="noopener" class="project-link">↗</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="project-card reveal">
-      <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fwww.bouiracouture.com%2F?w=900&amp;h=600" alt="Bouira Couture" class="project-img" loading="lazy" onerror="this.style.display='none'">
-      <div class="project-body">
-        <div class="project-meta">
-          <span class="project-num">007</span>
-          <span class="project-type" data-key="project7-type">E-Commerce</span>
-        </div>
-        <h3 class="project-title" data-key="project7-title">Bouira Couture</h3>
-        <p class="project-desc" data-key="project7-desc">Plateforme e-commerce complète pour la vente et réparation de machines à coudre. Catalogue, panier, comptes clients, livraison dans 58 wilayas.</p>
-        <div class="project-footer">
-          <div class="project-tags">
-            <span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">JS</span>
-          </div>
-          <a href="https://www.bouiracouture.com" target="_blank" rel="noopener" class="project-link">↗</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="project-card reveal">
-      <div class="project-img-placeholder"><span>AT</span></div>
-      <div class="project-body">
-        <div class="project-meta">
-          <span class="project-num">008</span>
-          <span class="project-type" data-key="project8-type">Stage · Secteur Public</span>
-        </div>
-        <h3 class="project-title" data-key="project8-title">Algérie Télécom — Portail de Candidatures</h3>
-        <p class="project-desc" data-key="project8-desc">Portail web complet développé durant mon stage pour la gestion et le suivi des candidatures en interne, de la soumission jusqu'à l'examen.</p>
-        <div class="project-footer">
-          <div class="project-tags">
-            <span class="tag">PHP</span><span class="tag">MySQL</span>
-          </div>
-          <span class="project-note" data-key="project8-note">Projet interne</span>
-        </div>
-      </div>
-    </div>
-
-    </div>
-    <button class="carousel-arrow next" id="carouselNext" aria-label="Projet suivant">›</button>
-  </div>
-  <div class="carousel-dots" id="carouselDots"></div>
-</section>
-
-<!-- ── EXPERIENCE ── -->
-<section class="section" id="experience">
-  <div class="section-eyebrow"><div class="section-eyebrow-line"></div><span class="section-eyebrow-label" data-key="section-eyebrow-experience">03 — Parcours</span></div>
-  <h2 class="section-title" data-key="section-title-experience">Formation & Expérience</h2>
-  <div class="exp-grid">
-    <div class="exp-card reveal">
-      <div class="exp-year">2020 — 2023</div>
-      <div class="exp-degree" data-key="exp1-degree">Technicien Supérieur — Base de Données</div>
-      <div class="exp-school" data-key="exp1-school">Sup IBNROCHD Hydra, Alger</div>
-      <span class="exp-badge" data-key="exp1-badge">Diplômé</span>
-    </div>
-    <div class="exp-card reveal">
-      <div class="exp-year">2019 — 2020</div>
-      <div class="exp-degree" data-key="exp2-degree">Licence Math-Informatique</div>
-      <div class="exp-school" data-key="exp2-school">Université M'Hamed Bougara, Boumerdes</div>
-    </div>
-    <div class="exp-card reveal">
-      <div class="exp-year">Stage</div>
-      <div class="exp-degree" data-key="exp3-degree">Développeur Web — Algérie Télécom</div>
-      <div class="exp-school" data-key="exp3-school">Portail de gestion des candidatures</div>
-      <span class="exp-badge" data-key="exp3-badge">Complété</span>
     </div>
   </div>
 </section>
 
-<!-- ── CONTACT ── -->
-<section id="contact">
-  <div class="contact-left">
-    <h2 class="contact-heading" data-key="contact-heading">
-      Travaillons<br>
-      <em>ensemble.</em>
-    </h2>
-    <p class="contact-sub" data-key="contact-sub">Disponible pour des missions freelance et opportunités full-time. N'hésitez pas à me contacter pour discuter de votre projet.</p>
-    <a href="mailto:touilabdelhalim17@gmail.com" class="btn btn-primary" data-key="contact-cta">Envoyer un message →</a>
+<!-- ── CLOSING CTA ── -->
+<section id="closing">
+  <div class="closing-bg" aria-hidden="true">
+    <div class="marquee-col up">
+      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://drsemmari.com/" alt="">
+      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://chabakatcom.dz/index.php" alt="">
+      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://drsemmari.com/" alt="">
+      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://chabakatcom.dz/index.php" alt="">
+    </div>
+    <div class="marquee-col down">
+      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://ventiquattro-dz.com/" alt="">
+      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://www.bouiracouture.com/" alt="">
+      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://ventiquattro-dz.com/" alt="">
+      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://www.bouiracouture.com/" alt="">
+    </div>
+    <div class="marquee-col up">
+      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://www.sarlhaddad.com/" alt="">
+      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://hali7m.github.io/Elvi-transport/" alt="">
+      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://www.sarlhaddad.com/" alt="">
+      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://hali7m.github.io/Elvi-transport/" alt="">
+    </div>
   </div>
-  <div class="contact-right">
-    <a href="mailto:touilabdelhalim17@gmail.com" class="contact-link">touilabdelhalim17@gmail.com <span>↗</span></a>
-    <a href="tel:+213792235187" class="contact-link">+213 792 235 187 <span>↗</span></a>
-    <a href="https://github.com/Hali7m" target="_blank" rel="noopener" class="contact-link">GitHub <span>↗</span></a>
-    <a href="https://www.linkedin.com/in/abdelhalim-touil-182743418/" target="_blank" rel="noopener" class="contact-link">LinkedIn <span>↗</span></a>
+  <div class="wrap closing-inner">
+    <h2 class="closing-title">Un projet en tête ? Discutons-en.</h2>
+    <p class="closing-sub">Disponible pour des missions freelance et des opportunités full-time. Écrivez-moi, je réponds rapidement.</p>
+    <div class="closing-ctas">
+      <a href="https://wa.me/213792235187" target="_blank" rel="noopener" class="btn btn-green">💬 WhatsApp</a>
+      <a href="mailto:touilabdelhalim17@gmail.com" class="btn btn-blue">✉️ Envoyer un email</a>
+    </div>
   </div>
 </section>
 
 <footer>
-  <span>© 2026 Touil Abdelhalim</span>
-  <span data-key="footer-role">Développeur Web · Alger, Algérie</span>
-  <span data-key="footer-status">✦ Disponible</span>
+  <div class="wrap">
+    <h3 class="footer-title">Restons en contact.</h3>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-col-label">Crédits</div>
+        <p><strong>© Touil Abdelhalim</strong></p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-label">Contact</div>
+        <a href="mailto:touilabdelhalim17@gmail.com">touilabdelhalim17@gmail.com</a>
+        <a href="tel:+213792235187">+213 792 235 187</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-label">Réseaux</div>
+        <a href="https://github.com/Hali7m" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/abdelhalim-touil-182743418/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-label">Statut</div>
+        <p>Alger, Algérie</p>
+        <p>© 2026</p>
+      </div>
+    </div>
+  </div>
 </footer>
 
 <script>
-  // ── i18n ──
-  const translations = {
-    'nav-about': { fr:'À propos', en:'About' },
-    'nav-projects': { fr:'Projets', en:'Projects' },
-    'nav-experience': { fr:'Parcours', en:'Experience' },
-    'nav-contact': { fr:'Contact', en:'Contact' },
-    'hero-eyebrow': { fr:'Développeur Web Freelance · Alger', en:'Freelance Web Developer · Algiers' },
-    'hero-name': { fr:'Sites qui<br><em>convertissent.</em>', en:'Websites that<br><em>convert.</em>' },
-    'hero-desc': { fr:"Je conçois et déploie des sites vitrine et e-commerce pour les entreprises algériennes — du cahier des charges jusqu'à la mise en ligne. PHP, MySQL, JavaScript.", en:'I design and deploy showcase and e-commerce websites for Algerian businesses — from initial specs all the way to launch. PHP, MySQL, JavaScript.' },
-    'hero-cta-primary': { fr:'Voir mes projets', en:'View my work' },
-    'hero-cta-outline': { fr:'Me contacter', en:'Get in touch' },
-    'badge-ring-text': { fr:'DISPONIBLE · ALGER · FREELANCE · 2026 · DISPONIBLE · ALGER · FREELANCE · 2026 ·', en:'AVAILABLE · ALGIERS · FREELANCE · 2026 · AVAILABLE · ALGIERS · FREELANCE · 2026 ·' },
-    'badge-label': { fr:'Projets livrés', en:'Projects delivered' },
-    'marquee-vitrine': { fr:'Sites Vitrine', en:'Showcase Sites' },
-    'marquee-database': { fr:'Bases de Données', en:'Databases' },
-    'marquee-hosting': { fr:'Hébergement Web', en:'Web Hosting' },
-    'section-eyebrow-about': { fr:'01 — À propos', en:'01 — About' },
-    'section-title-about': { fr:'Développeur web<br>basé à Alger', en:'Web developer<br>based in Algiers' },
-    'about-p1': { fr:"Je suis <strong>Touil Abdelhalim</strong>, développeur web freelance basé à Alger. Je conçois et déploie des sites vitrine et e-commerce adaptés aux besoins des entreprises algériennes — du cahier des charges jusqu'à la mise en ligne.", en:"I'm <strong>Touil Abdelhalim</strong>, a freelance web developer based in Algiers. I design and deploy showcase and e-commerce websites tailored to Algerian businesses — from initial specs all the way to launch." },
-    'about-p2': { fr:"Titulaire d'un diplôme de <strong>Technicien Supérieur en Base de Données</strong> (Sup IBNROCHD, 2023), j'ai acquis une solide expérience en conception et gestion de bases de données, complétée par un stage chez <strong>Algérie Télécom</strong> où j'ai développé un portail web complet de gestion des candidatures.", en:"Holder of a <strong>Higher Technician diploma in Databases</strong> (Sup IBNROCHD, 2023), I built solid experience in database design and management, complemented by an internship at <strong>Algérie Télécom</strong> where I developed a full web portal for managing job applications." },
-    'about-p3': { fr:'Actuellement ouvert à des <strong>missions freelance</strong> et des <strong>opportunités full-time</strong>. Disponible à Alger et en télétravail.', en:'Currently open to <strong>freelance missions</strong> and <strong>full-time opportunities</strong>. Available in Algiers and remotely.' },
-    'about-availability': { fr:'Disponible pour missions', en:'Available for work' },
-    'skill-cat-backend': { fr:'Backend', en:'Backend' },
-    'skill-cat-frontend': { fr:'Frontend', en:'Frontend' },
-    'skill-cat-ui': { fr:'UI Framework', en:'UI Framework' },
-    'skill-cat-cms': { fr:'CMS', en:'CMS' },
-    'skill-cat-design': { fr:'Design', en:'Design' },
-    'skill-cat-tools': { fr:'Outils', en:'Tools' },
-    'skill-cat-db': { fr:'BDD', en:'Database' },
-    'section-eyebrow-projects': { fr:'02 — Projets', en:'02 — Projects' },
-    'section-title-projects': { fr:'Travaux récents', en:'Recent work' },
-    'project1-type': { fr:'Vitrine · Santé', en:'Showcase · Healthcare' },
-    'project1-title': { fr:'Dr Semmari Ahlem', en:'Dr Semmari Ahlem' },
-    'project1-desc': { fr:"Portfolio et site vitrine pour un cabinet dentaire, avec une plateforme d'administration permettant de rédiger des articles de blog et d'ajouter des images à la galerie de réalisations.", en:'Portfolio and showcase site for a dental practice, with an admin platform to write blog posts and add images to the gallery of past cases.' },
-    'project2-type': { fr:'E-Commerce · Mode', en:'E-Commerce · Fashion' },
-    'project2-title': { fr:'Venti Quattro', en:'Venti Quattro' },
-    'project2-desc': { fr:"Plateforme e-commerce complète pour une boutique de streetwear et sneakers à Alger. Gestion des commandes, gestion des stocks, suivi des entrées financières et tableau de bord analytique pour piloter l'activité de la boutique.", en:'Complete e-commerce platform for a streetwear and sneakers store in Algiers. Order management, stock management, financial tracking, and an analytics dashboard to run the store.' },
-    'project3-type': { fr:'Concept · Cosmétique', en:'Concept · Cosmetics' },
-    'project3-title': { fr:'SARL Makkoz', en:'SARL Makkoz' },
-    'project3-desc': { fr:"Site vitrine conçu pour un importateur-distributeur de cosmétiques, avec une identité visuelle inspirée du wrap de leur véhicule de marque. Projet réalisé pour le client, resté sans suite de sa part et conservé ici comme pièce de portfolio.", en:"Showcase site designed for a cosmetics import-distribution brand, with a visual identity inspired by the livery wrap on their branded vehicle. Built for the client, who never followed up — kept here as a portfolio piece." },
-    'project4-type': { fr:'Vitrine · Télécoms', en:'Showcase · Telecom' },
-    'project4-title': { fr:'Chabakat Com', en:'Chabakat Com' },
-    'project4-desc': { fr:'Vitrine pour un intégrateur télécom algérien. Couvre GSM, FTTH, fibre optique et génie civil sur 69 wilayas. Partenaires : Mobilis, Ooredoo, Huawei, ZTE.', en:'Showcase site for an Algerian telecom integrator. Covers GSM, FTTH, fiber optics and civil engineering across 69 provinces. Partners: Mobilis, Ooredoo, Huawei, ZTE.' },
-    'project5-type': { fr:'Vitrine · Logistique', en:'Showcase · Logistics' },
-    'project5-title': { fr:'ELVI Transport INC', en:'ELVI Transport INC' },
-    'project5-desc': { fr:'Site vitrine professionnel moderne développé pour une entreprise de transport logistique.', en:'Modern professional showcase site built for a logistics and transport company.' },
-    'project6-type': { fr:'Corporate · Télécoms', en:'Corporate · Telecom' },
-    'project6-title': { fr:'Sarl Haddad Télécommunications', en:'Sarl Haddad Telecommunications' },
-    'project6-desc': { fr:"Site corporate pour une entreprise spécialisée en installation de réseaux GSM, infrastructure télécoms et immobilier. Présence en ligne professionnelle reflétant 10+ ans d'expertise.", en:'Corporate site for a company specialized in GSM network installation, telecom infrastructure and real estate. A professional online presence reflecting 10+ years of expertise.' },
-    'project7-type': { fr:'E-Commerce', en:'E-Commerce' },
-    'project7-title': { fr:'Bouira Couture', en:'Bouira Couture' },
-    'project7-desc': { fr:'Plateforme e-commerce complète pour la vente et réparation de machines à coudre. Catalogue, panier, comptes clients, livraison dans 58 wilayas.', en:'Complete e-commerce platform for selling and repairing sewing machines. Catalog, cart, customer accounts, delivery across 58 provinces.' },
-    'project8-type': { fr:'Stage · Secteur Public', en:'Internship · Public Sector' },
-    'project8-title': { fr:'Algérie Télécom — Portail de Candidatures', en:'Algérie Télécom — Applications Portal' },
-    'project8-desc': { fr:'Portail web complet développé durant mon stage pour la gestion et le suivi des candidatures en interne, de la soumission jusqu\'à l\'examen.', en:'Full web portal built during my internship to manage and track job applications internally, from submission to review.' },
-    'project8-note': { fr:'Projet interne', en:'Internal project' },
-    'section-eyebrow-experience': { fr:'03 — Parcours', en:'03 — Experience' },
-    'section-title-experience': { fr:'Formation & Expérience', en:'Education & Experience' },
-    'exp1-degree': { fr:'Technicien Supérieur — Base de Données', en:'Higher Technician — Databases' },
-    'exp1-school': { fr:'Sup IBNROCHD Hydra, Alger', en:'Sup IBNROCHD Hydra, Algiers' },
-    'exp1-badge': { fr:'Diplômé', en:'Graduated' },
-    'exp2-degree': { fr:'Licence Math-Informatique', en:'Bachelor\'s — Math & Computer Science' },
-    'exp2-school': { fr:"Université M'Hamed Bougara, Boumerdes", en:"M'Hamed Bougara University, Boumerdes" },
-    'exp3-degree': { fr:'Développeur Web — Algérie Télécom', en:'Web Developer — Algérie Télécom' },
-    'exp3-school': { fr:'Portail de gestion des candidatures', en:'Job applications management portal' },
-    'exp3-badge': { fr:'Complété', en:'Completed' },
-    'contact-heading': { fr:'Travaillons<br><em>ensemble.</em>', en:'Let\'s work<br><em>together.</em>' },
-    'contact-sub': { fr:"Disponible pour des missions freelance et opportunités full-time. N'hésitez pas à me contacter pour discuter de votre projet.", en:'Available for freelance missions and full-time opportunities. Feel free to reach out to discuss your project.' },
-    'contact-cta': { fr:'Envoyer un message →', en:'Send a message →' },
-    'footer-role': { fr:'Développeur Web · Alger, Algérie', en:'Web Developer · Algiers, Algeria' },
-    'footer-status': { fr:'✦ Disponible', en:'✦ Available' }
-  };
+  // Reveal on scroll
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 50); obs.unobserve(e.target); }
+    });
+  }, { threshold: .1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-  function applyLang(lang) {
-    document.documentElement.lang = lang;
-    document.querySelectorAll('[data-key]').forEach(el => {
-      const entry = translations[el.dataset.key];
-      if (entry && entry[lang] !== undefined) el.innerHTML = entry[lang];
-    });
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.lang === lang);
-    });
-    try { localStorage.setItem('site-lang', lang); } catch (e) {}
+  // Rotating role text
+  const roles = ['Développeur Web', 'Ingénieur Bases de Données', 'Freelance'];
+  const roleEl = document.getElementById('roleText');
+  let ri = 0;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReduced) {
+    setInterval(() => {
+      ri = (ri + 1) % roles.length;
+      roleEl.style.opacity = 0;
+      setTimeout(() => { roleEl.textContent = roles[ri]; roleEl.style.opacity = 1; }, 250);
+    }, 2600);
+    roleEl.style.transition = 'opacity .25s ease';
   }
-
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', () => applyLang(btn.dataset.lang));
-  });
-
-  (function initLang() {
-    let saved = 'fr';
-    try { saved = localStorage.getItem('site-lang') || 'fr'; } catch (e) {}
-    applyLang(saved);
-  })();
-
-  // ── Projects carousel ──
-  (function () {
-    const track = document.getElementById('carouselTrack');
-    const prevBtn = document.getElementById('carouselPrev');
-    const nextBtn = document.getElementById('carouselNext');
-    const dotsWrap = document.getElementById('carouselDots');
-    if (!track) return;
-    const cards = Array.from(track.children);
-
-    cards.forEach((_, i) => {
-      const dot = document.createElement('button');
-      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-      dot.setAttribute('aria-label', 'Aller au projet ' + (i + 1));
-      dot.addEventListener('click', () => {
-        track.scrollTo({ left: cards[i].offsetLeft - track.offsetLeft, behavior: 'smooth' });
-      });
-      dotsWrap.appendChild(dot);
-    });
-    const dots = Array.from(dotsWrap.children);
-
-    function step() {
-      const card = cards[0];
-      const style = getComputedStyle(track);
-      const gap = parseFloat(style.columnGap || style.gap || 24);
-      return card.getBoundingClientRect().width + gap;
-    }
-    prevBtn.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
-    nextBtn.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
-
-    let ticking = false;
-    track.addEventListener('scroll', () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        const center = track.scrollLeft + track.clientWidth / 2;
-        let closest = 0, min = Infinity;
-        cards.forEach((c, i) => {
-          const mid = c.offsetLeft - track.offsetLeft + c.offsetWidth / 2;
-          const d = Math.abs(mid - center);
-          if (d < min) { min = d; closest = i; }
-        });
-        dots.forEach((d, i) => d.classList.toggle('active', i === closest));
-        prevBtn.style.opacity = track.scrollLeft <= 4 ? '.35' : '1';
-        nextBtn.style.opacity = track.scrollLeft >= track.scrollWidth - track.clientWidth - 4 ? '.35' : '1';
-        ticking = false;
-      });
-    });
-    track.dispatchEvent(new Event('scroll'));
-  })();
-
-  // Cursor
-  const cur = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove',e=>{
-    mx=e.clientX; my=e.clientY;
-    cur.style.left=mx+'px'; cur.style.top=my+'px';
-  });
-  (function tick(){
-    rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
-    ring.style.left=rx+'px'; ring.style.top=ry+'px';
-    requestAnimationFrame(tick);
-  })();
-  document.querySelectorAll('a,button,.skill-card,.project-card,.exp-card,.contact-link').forEach(el=>{
-    el.addEventListener('mouseenter',()=>{ cur.classList.add('big'); ring.classList.add('big'); });
-    el.addEventListener('mouseleave',()=>{ cur.classList.remove('big'); ring.classList.remove('big'); });
-  });
-
-  // Scroll reveal
-  const obs = new IntersectionObserver(entries=>{
-    entries.forEach((e,i)=>{
-      if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'),i*80); obs.unobserve(e.target); }
-    });
-  },{threshold:.08});
-  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
 </body>
 </html>
