@@ -234,8 +234,16 @@
     -webkit-mask-image:linear-gradient(to bottom, transparent, black 22%, black 78%, transparent);
     mask-image:linear-gradient(to bottom, transparent, black 22%, black 78%, transparent);
   }
-  .marquee-col{ display:flex; flex-direction:column; gap:.9rem; will-change:transform; }
-  .marquee-col img{ width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:14px; filter:saturate(.85); }
+.marquee-col img {
+  width: 100%;
+  aspect-ratio: 16 / 10;          /* Changes from 4/3 to desktop screen proportion */
+  object-fit: cover;
+  object-position: top center;    /* Anchors capture to header/hero area */
+  border-radius: 12px;
+  filter: saturate(.85);
+  background: #0c0d0f;            /* Dark background fill underneath */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Adds crisp card edges */
+}  .marquee-col img{ width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:14px; filter:saturate(.85); }
   .marquee-col.up{ animation:scrollUp 32s linear infinite; }
   .marquee-col.down{ animation:scrollDown 28s linear infinite; }
   @keyframes scrollUp{ from{ transform:translateY(0); } to{ transform:translateY(-50%); } }
@@ -275,7 +283,7 @@
 </nav>
 
 <!-- ── HERO ── -->
-<section class="hero wrap" id="home">
+<section class="hero" id="home">
   <div class="hero-bg" aria-hidden="true"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
   <div class="hero-content">
     <h1 class="hero-h1">Salut, je suis Halim.</h1>
@@ -316,7 +324,7 @@
         <div class="work-frame-holder">
           <div class="browser-frame">
             <div class="browser-bar"><span></span><span></span><span></span></div>
-            <img src="https://image.thum.io/get/width/700/crop/900/noanimate/https://drsemmari.com/" alt="Dr Semmari Ahlem" loading="lazy" onerror="this.src='https://s.wordpress.com/mshots/v1/https%3A%2F%2Fdrsemmari.com%2F?w=700%26h=500'">
+            <img src="https://image.thum.io/get/width/1000/crop/900/noanimate/https://drsemmari.com/" alt="Dr Semmari Ahlem" loading="lazy" onerror="this.src='https://s.wordpress.com/mshots/v1/https%3A%2F%2Fdrsemmari.com%2F?w=700%26h=500'">
           </div>
         </div>
         <div class="work-overlay">
@@ -460,22 +468,22 @@
 <section id="closing">
   <div class="closing-bg" aria-hidden="true">
     <div class="marquee-col up">
-      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://drsemmari.com/" alt="">
-      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://chabakatcom.dz/index.php" alt="">
-      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://drsemmari.com/" alt="">
-      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://chabakatcom.dz/index.php" alt="">
+      <img src="https://image.thum.io/get/width/1000/crop/625/noanimate/https://drsemmari.com/" alt="">
+      <img src="https://image.thum.io/get/width/1000/crop/625/noanimate/https://chabakatcom.dz/index.php" alt="">
+      <img src="https://image.thum.io/get/width/1000/crop/625/noanimate/https://drsemmari.com/" alt="">
+      <img src="https://image.thum.io/get/width/1000/crop/625/noanimate/https://chabakatcom.dz/index.php" alt="">
     </div>
     <div class="marquee-col down">
-      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://ventiquattro-dz.com/" alt="">
-      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://www.bouiracouture.com/" alt="">
-      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://ventiquattro-dz.com/" alt="">
-      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://www.bouiracouture.com/" alt="">
+      <img src="https://image.thum.io/get/width/1000/crop/625/noanimate/https://ventiquattro-dz.com/" alt="">
+      <img src="https://image.thum.io/get/width/1000/crop/625/noanimate/https://www.bouiracouture.com/" alt="">
+      <img src="https://image.thum.io/get/width/1000/crop/625/noanimate/https://ventiquattro-dz.com/" alt="">
+      <img src="https://image.thum.io/get/width/1000/crop/625/noanimate/https://www.bouiracouture.com/" alt="">
     </div>
     <div class="marquee-col up">
-      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://www.sarlhaddad.com/" alt="">
-      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://hali7m.github.io/Elvi-transport/" alt="">
-      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://www.sarlhaddad.com/" alt="">
-      <img src="https://image.thum.io/get/width/500/crop/400/noanimate/https://hali7m.github.io/Elvi-transport/" alt="">
+      <img src="https://image.thum.io/get/width/1000/crop/625/noanimate/https://www.sarlhaddad.com/" alt="">
+      <img src="https://image.thum.io/get/width/1000/crop/625/noanimate/https://hali7m.github.io/Elvi-transport/" alt="">
+      <img src="https://image.thum.io/get/width/1000/crop/625/noanimate/https://www.sarlhaddad.com/" alt="">
+      <img src="https://image.thum.io/get/width/1000/crop/625/noanimate/https://hali7m.github.io/Elvi-transport/" alt="">
     </div>
   </div>
   <div class="wrap closing-inner">
